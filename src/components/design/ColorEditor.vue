@@ -20,7 +20,6 @@ const statusColors = [
   { key: 'info', label: 'Info', desc: 'Informationsmeldungen' },
 ]
 
-// Abgeleitete Farben für Preview
 const derived = computed(() => deriveTokens(model.value))
 
 const derivedPreview = computed(() => [
@@ -33,28 +32,26 @@ const derivedPreview = computed(() => [
 </script>
 
 <template>
-  <div>
+  <div class="ce-root">
     <!-- Hauptfarben -->
-    <h3 class="text-body-1 font-weight-bold mb-4">Hauptfarben</h3>
-    <v-row>
-      <v-col
-        v-for="def in mainColors"
-        :key="def.key"
-        cols="12"
-        sm="6"
-        md="4"
-      >
-        <v-card variant="outlined" class="pa-4">
-          <div class="d-flex align-center gap-3 mb-2">
+    <div class="ce-section">
+      <div class="ce-section-label">HAUPTFARBEN</div>
+      <div class="ce-color-grid">
+        <div
+          v-for="def in mainColors"
+          :key="def.key"
+          class="ce-color-card"
+        >
+          <div class="ce-color-head">
             <input
               type="color"
               :value="model[def.key] || '#000000'"
               @input="model[def.key] = $event.target.value"
-              class="aw-color-input"
+              class="ce-color-input"
             />
-            <div>
-              <div class="text-body-2 font-weight-medium">{{ def.label }}</div>
-              <div class="text-caption text-medium-emphasis">{{ def.desc }}</div>
+            <div class="ce-color-info">
+              <div class="ce-color-label">{{ def.label }}</div>
+              <div class="ce-color-desc">{{ def.desc }}</div>
             </div>
           </div>
           <v-text-field
@@ -63,68 +60,56 @@ const derivedPreview = computed(() => [
             density="compact"
             variant="outlined"
             hide-details
-            class="mt-2 mono-input"
+            class="ce-hex-input"
           />
-        </v-card>
-      </v-col>
-    </v-row>
+        </div>
+      </div>
+    </div>
 
-    <!-- Status-Farben (klappbar) -->
-    <v-btn
-      variant="text"
-      size="small"
-      class="mt-6 mb-2"
-      @click="showStatus = !showStatus"
-      :prepend-icon="showStatus ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-    >
-      Status-Farben
-    </v-btn>
+    <!-- Status-Farben -->
+    <div class="ce-section">
+      <button class="ce-expand-btn" @click="showStatus = !showStatus">
+        <v-icon :icon="showStatus ? 'mdi-chevron-up' : 'mdi-chevron-down'" size="16" class="mr-2" />
+        <span class="ce-section-label" style="margin-bottom: 0">STATUS-FARBEN</span>
+      </button>
 
-    <v-expand-transition>
-      <v-row v-show="showStatus">
-        <v-col
-          v-for="def in statusColors"
-          :key="def.key"
-          cols="12"
-          sm="6"
-          md="3"
-        >
-          <v-card variant="outlined" class="pa-4">
-            <div class="d-flex align-center gap-3">
-              <input
-                type="color"
-                :value="model[def.key] || '#000000'"
-                @input="model[def.key] = $event.target.value"
-                class="aw-color-input"
-              />
-              <div>
-                <div class="text-body-2 font-weight-medium">{{ def.label }}</div>
-                <div class="text-caption text-medium-emphasis">{{ def.desc }}</div>
-              </div>
+      <v-expand-transition>
+        <div v-show="showStatus" class="ce-status-grid">
+          <div
+            v-for="def in statusColors"
+            :key="def.key"
+            class="ce-status-item"
+          >
+            <input
+              type="color"
+              :value="model[def.key] || '#000000'"
+              @input="model[def.key] = $event.target.value"
+              class="ce-color-input ce-color-input--sm"
+            />
+            <div class="ce-color-info">
+              <div class="ce-color-label">{{ def.label }}</div>
+              <div class="ce-color-desc">{{ def.desc }}</div>
             </div>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-expand-transition>
+          </div>
+        </div>
+      </v-expand-transition>
+    </div>
 
-    <!-- Abgeleitete Farben (read-only Preview) -->
-    <h3 class="text-body-1 font-weight-bold mt-8 mb-3">Abgeleitete Farben</h3>
-    <p class="text-caption text-medium-emphasis mb-4">
-      Werden automatisch aus den Hauptfarben berechnet.
-    </p>
-    <div class="d-flex flex-wrap gap-4">
-      <div
-        v-for="item in derivedPreview"
-        :key="item.label"
-        class="d-flex align-center gap-2"
-      >
+    <!-- Abgeleitete Farben -->
+    <div class="ce-section">
+      <div class="ce-section-label">ABGELEITET</div>
+      <p class="ce-hint">Werden automatisch aus den Hauptfarben berechnet.</p>
+      <div class="ce-derived-row">
         <div
-          class="aw-swatch"
-          :style="{ background: item.value }"
-        />
-        <div>
-          <div class="text-caption font-weight-medium">{{ item.label }}</div>
-          <div class="text-caption text-medium-emphasis" style="font-family: var(--aw-font-mono); font-size: 11px">{{ item.value }}</div>
+          v-for="item in derivedPreview"
+          :key="item.label"
+          class="ce-derived-item"
+        >
+          <div class="ce-derived-swatch" :style="{ background: item.value }" />
+          <div class="ce-derived-info">
+            <div class="ce-derived-label">{{ item.label }}</div>
+            <div class="ce-derived-hex">{{ item.value }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -132,7 +117,50 @@ const derivedPreview = computed(() => [
 </template>
 
 <style scoped>
-.aw-color-input {
+.ce-root {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.ce-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--aw-text-secondary);
+  font-family: var(--aw-font-mono);
+  margin-bottom: 16px;
+}
+
+.ce-hint {
+  font-size: 12px;
+  color: var(--aw-text-muted);
+  margin: -8px 0 16px;
+  line-height: 1.5;
+}
+
+/* ── Color Grid ── */
+.ce-color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.ce-color-card {
+  background: var(--aw-surface);
+  border: 1px solid var(--aw-border);
+  border-radius: var(--aw-radius-lg);
+  padding: 16px;
+}
+
+.ce-color-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.ce-color-input {
   width: 40px;
   height: 40px;
   border: 2px solid var(--aw-border);
@@ -143,16 +171,77 @@ const derivedPreview = computed(() => [
   flex-shrink: 0;
 }
 
-.aw-color-input::-webkit-color-swatch-wrapper {
-  padding: 2px;
+.ce-color-input::-webkit-color-swatch-wrapper { padding: 2px; }
+.ce-color-input::-webkit-color-swatch { border: none; border-radius: var(--aw-radius-sm); }
+
+.ce-color-input--sm {
+  width: 32px;
+  height: 32px;
 }
 
-.aw-color-input::-webkit-color-swatch {
+.ce-color-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ce-color-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--aw-text);
+}
+
+.ce-color-desc {
+  font-size: 11px;
+  color: var(--aw-text-muted);
+}
+
+.ce-hex-input :deep(input) {
+  font-family: var(--aw-font-mono);
+  font-size: 13px;
+}
+
+/* ── Status ── */
+.ce-expand-btn {
+  display: flex;
+  align-items: center;
+  background: none;
   border: none;
-  border-radius: var(--aw-radius-sm);
+  cursor: pointer;
+  padding: 0;
+  color: var(--aw-text-secondary);
 }
 
-.aw-swatch {
+.ce-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.ce-status-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--aw-surface);
+  border: 1px solid var(--aw-border);
+  border-radius: var(--aw-radius-lg);
+  padding: 12px 16px;
+}
+
+/* ── Derived ── */
+.ce-derived-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.ce-derived-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ce-derived-swatch {
   width: 28px;
   height: 28px;
   border-radius: var(--aw-radius-sm);
@@ -160,8 +249,15 @@ const derivedPreview = computed(() => [
   flex-shrink: 0;
 }
 
-.mono-input :deep(input) {
+.ce-derived-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--aw-text);
+}
+
+.ce-derived-hex {
+  font-size: 11px;
   font-family: var(--aw-font-mono);
-  font-size: 13px;
+  color: var(--aw-text-muted);
 }
 </style>

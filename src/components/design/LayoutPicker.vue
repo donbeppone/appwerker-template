@@ -8,7 +8,7 @@ const layouts = [
   {
     value: 'sidebar',
     title: 'Sidebar',
-    desc: 'Klassisches Layout mit dunkler Seitenleiste links',
+    desc: 'Klassisches Layout mit Seitenleiste links',
     icon: 'mdi-page-layout-sidebar-left',
   },
   {
@@ -32,47 +32,106 @@ function selectLayout(value) {
 </script>
 
 <template>
-  <v-row>
-    <v-col
-      v-for="layout in layouts"
-      :key="layout.value"
-      cols="12"
-      md="4"
-    >
-      <v-card
-        :variant="model === layout.value ? 'flat' : 'outlined'"
-        :color="model === layout.value ? 'primary' : undefined"
-        class="pa-6 cursor-pointer"
-        :class="{ 'aw-layout-active': model === layout.value }"
+  <div>
+    <div class="lp-section-label">LAYOUT</div>
+    <div class="lp-grid">
+      <div
+        v-for="layout in layouts"
+        :key="layout.value"
+        class="lp-card"
+        :class="{ 'lp-card--active': model === layout.value }"
         @click="selectLayout(layout.value)"
       >
-        <div class="text-center">
-          <v-icon :icon="layout.icon" size="48" class="mb-3" />
-          <h3 class="text-body-1 font-weight-bold">{{ layout.title }}</h3>
-          <p class="text-body-2 mt-1" :class="model === layout.value ? '' : 'text-medium-emphasis'">
-            {{ layout.desc }}
-          </p>
+        <v-icon :icon="layout.icon" size="48" class="lp-icon" />
+        <div class="lp-title">{{ layout.title }}</div>
+        <div class="lp-desc">{{ layout.desc }}</div>
+        <div class="lp-radio">
+          <div class="lp-radio-dot" :class="{ 'lp-radio-dot--active': model === layout.value }" />
         </div>
-
-        <div class="d-flex justify-center mt-4">
-          <v-radio
-            :model-value="model === layout.value"
-            :value="true"
-            hide-details
-            density="compact"
-          />
-        </div>
-      </v-card>
-    </v-col>
-  </v-row>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-.cursor-pointer {
-  cursor: pointer;
+.lp-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--aw-text-secondary);
+  font-family: var(--aw-font-mono);
+  margin-bottom: 16px;
 }
 
-.aw-layout-active {
-  border: 2px solid var(--aw-primary) !important;
+.lp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .lp-grid { grid-template-columns: 1fr; }
+}
+
+.lp-card {
+  background: var(--aw-surface);
+  border: 1px solid var(--aw-border);
+  border-radius: var(--aw-radius-lg);
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lp-card:hover {
+  border-color: var(--aw-text-muted);
+}
+
+.lp-card--active {
+  border-color: var(--aw-primary);
+  border-width: 2px;
+  padding: 23px;
+}
+
+.lp-icon {
+  color: var(--aw-text-secondary);
+  margin-bottom: 12px;
+}
+
+.lp-card--active .lp-icon {
+  color: var(--aw-primary);
+}
+
+.lp-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--aw-text);
+}
+
+.lp-desc {
+  font-size: 12px;
+  color: var(--aw-text-muted);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.lp-radio {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.lp-radio-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--aw-border);
+  transition: all 0.15s ease;
+}
+
+.lp-radio-dot--active {
+  border-color: var(--aw-primary);
+  background: var(--aw-primary);
+  box-shadow: inset 0 0 0 3px var(--aw-surface);
 }
 </style>

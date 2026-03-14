@@ -21,21 +21,29 @@ body {
 }
 
 /* ── Vuetify Overrides — Radien via Token ── */
-.v-card {
+.v-card,
+.v-card.v-sheet,
+.v-card.v-sheet.v-theme--light,
+.v-card.v-sheet.v-theme--dark {
   border-radius: var(--aw-radius-lg) !important;
   border: 1px solid var(--aw-border) !important;
   box-shadow: var(--aw-shadow) !important;
 }
 
-.v-btn {
+/* Vuetify setzt intern .rounded-0 usw. auf v-card — wir überschreiben alles */
+.v-card[class] {
+  border-radius: var(--aw-radius-lg) !important;
+}
+
+.v-btn:not(.v-btn--icon) {
   border-radius: var(--aw-radius) !important;
   letter-spacing: -0.01em !important;
 }
 
-.v-text-field .v-field,
-.v-textarea .v-field,
-.v-select .v-field,
-.v-autocomplete .v-field {
+.v-field,
+.v-field--variant-outlined,
+.v-field--variant-filled,
+.v-field--variant-solo {
   border-radius: var(--aw-radius) !important;
 }
 
@@ -60,10 +68,87 @@ body {
 }
 
 /* ── Vuetify Rounded-Utilities mit Tokens ── */
-.rounded-lg { border-radius: var(--aw-radius-lg) !important; }
-.rounded { border-radius: var(--aw-radius) !important; }
+.rounded-0 { border-radius: 0 !important; }
+.rounded-lg, [class*="rounded-lg"] { border-radius: var(--aw-radius-lg) !important; }
+.rounded, [class*="rounded"]:not([class*="rounded-"]) { border-radius: var(--aw-radius) !important; }
 .rounded-sm { border-radius: var(--aw-radius-sm) !important; }
 .rounded-xl { border-radius: var(--aw-radius-xl) !important; }
+
+/* ── Design Editor eigene Styles ── */
+.ds-section {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--aw-border);
+}
+.ds-section:last-child { border-bottom: none; }
+
+.ds-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--aw-text-secondary);
+  margin-bottom: 16px;
+}
+
+.ds-token-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.ds-token-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--aw-text-secondary);
+  min-width: 40px;
+  font-family: var(--aw-font-mono);
+}
+
+.ds-token-value {
+  font-size: 11px;
+  color: var(--aw-text-muted);
+  font-family: var(--aw-font-mono);
+}
+
+.ds-btn-group {
+  display: inline-flex;
+  border: 1px solid var(--aw-border);
+  border-radius: var(--aw-radius);
+  overflow: hidden;
+}
+
+.ds-btn-group button {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--aw-font-mono);
+  border: none;
+  background: transparent;
+  color: var(--aw-text-secondary);
+  cursor: pointer;
+  border-right: 1px solid var(--aw-border);
+  transition: all 0.15s ease;
+}
+
+.ds-btn-group button:last-child { border-right: none; }
+
+.ds-btn-group button:hover {
+  background: var(--aw-border);
+}
+
+.ds-btn-group button.active {
+  background: var(--aw-primary);
+  color: var(--aw-on-primary);
+}
+
+.ds-preview-box {
+  background: var(--aw-surface);
+  border: 1px solid var(--aw-border);
+  border-radius: var(--aw-radius);
+  padding: 16px;
+  transition: all 0.2s ease;
+}
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {

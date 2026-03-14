@@ -256,9 +256,12 @@ export function deriveTokens(core) {
 
     // ── Schatten ──
     shadows: {
-      xs: `0 1px 2px rgba(0, 0, 0, ${(shadowAlpha * 0.6).toFixed(2)})`,
-      md: `0 1px 3px rgba(0, 0, 0, ${shadowAlpha.toFixed(2)}), 0 1px 2px rgba(0, 0, 0, ${(shadowAlpha * 0.7).toFixed(2)})`,
-      lg: `0 4px 16px rgba(0, 0, 0, ${(shadowAlpha * 1.3).toFixed(2)})`,
+      xs: `0 1px 2px rgba(0, 0, 0, ${(shadowAlpha * 0.5).toFixed(2)})`,
+      sm: `0 1px 3px rgba(0, 0, 0, ${(shadowAlpha * 0.7).toFixed(2)}), 0 1px 2px rgba(0, 0, 0, ${(shadowAlpha * 0.5).toFixed(2)})`,
+      md: `0 2px 8px rgba(0, 0, 0, ${shadowAlpha.toFixed(2)}), 0 1px 3px rgba(0, 0, 0, ${(shadowAlpha * 0.6).toFixed(2)})`,
+      lg: `0 4px 16px rgba(0, 0, 0, ${(shadowAlpha * 1.3).toFixed(2)}), 0 2px 6px rgba(0, 0, 0, ${(shadowAlpha * 0.5).toFixed(2)})`,
+      xl: `0 8px 28px rgba(0, 0, 0, ${(shadowAlpha * 1.6).toFixed(2)}), 0 4px 10px rgba(0, 0, 0, ${(shadowAlpha * 0.6).toFixed(2)})`,
+      '2xl': `0 16px 48px rgba(0, 0, 0, ${(shadowAlpha * 2).toFixed(2)}), 0 6px 16px rgba(0, 0, 0, ${(shadowAlpha * 0.8).toFixed(2)})`,
     },
 
     // ── Typografie ──
@@ -303,8 +306,11 @@ export function injectTokens(coreTokens) {
 
   // Schatten
   root.style.setProperty('--aw-shadow-xs', derived.shadows.xs)
+  root.style.setProperty('--aw-shadow-sm', derived.shadows.sm)
   root.style.setProperty('--aw-shadow', derived.shadows.md)
   root.style.setProperty('--aw-shadow-lg', derived.shadows.lg)
+  root.style.setProperty('--aw-shadow-xl', derived.shadows.xl)
+  root.style.setProperty('--aw-shadow-2xl', derived.shadows['2xl'])
 
   // Typografie
   root.style.setProperty('--aw-font-family', derived.typography.fontFamily)
@@ -351,8 +357,11 @@ function injectDarkModeStyles(derived) {
 
   const shadowVars = [
     `  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);`,
-    `  --aw-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);`,
-    `  --aw-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.5);`,
+    `  --aw-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);`,
+    `  --aw-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);`,
+    `  --aw-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);`,
+    `  --aw-shadow-xl: 0 8px 28px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.35);`,
+    `  --aw-shadow-2xl: 0 16px 48px rgba(0, 0, 0, 0.7), 0 6px 16px rgba(0, 0, 0, 0.4);`,
   ].join('\n')
 
   style.textContent = `html.dark {\n${darkVars}\n${sidebarVars}\n${shadowVars}\n}`
