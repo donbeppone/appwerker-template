@@ -1,0 +1,107 @@
+/* ═══════════════════════════════════════════════════════════
+   Appwerker Template — Design Token Defaults (--aw-*)
+   Diese Werte werden beim App-Start durch Appwrite-Tokens überschrieben.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Farben ── */
+  --aw-primary: #6366f1;
+  --aw-primary-hover: #4f46e5;
+  --aw-on-primary: #ffffff;
+  --aw-secondary: #6b7280;
+  --aw-accent: #06b6d4;
+  --aw-error: #ef4444;
+  --aw-success: #22c55e;
+  --aw-warning: #f59e0b;
+  --aw-info: #3b82f6;
+
+  --aw-bg: #f8f9fb;
+  --aw-surface: #ffffff;
+  --aw-surface-raised: #ffffff;
+  --aw-border: #e5e7eb;
+  --aw-text: #111827;
+  --aw-text-secondary: #6b7280;
+  --aw-text-muted: #9ca3af;
+
+  /* ── Sidebar ── */
+  --aw-sidebar-bg: #111827;
+  --aw-sidebar-text: #d1d5db;
+  --aw-sidebar-active-bg: rgba(99, 102, 241, 0.12);
+  --aw-sidebar-active-text: #818cf8;
+  --aw-sidebar-width: 220px;
+
+  /* ── Abstände / Radien ── */
+  --aw-radius-sm: 6px;
+  --aw-radius: 10px;
+  --aw-radius-lg: 14px;
+  --aw-radius-xl: 20px;
+
+  /* ── Schatten ── */
+  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --aw-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --aw-shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.10);
+
+  /* ── Typografie ── */
+  --aw-font-family: 'DM Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --aw-font-family-heading: 'DM Sans', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Dark Mode ── */
+html.dark {
+  --aw-bg: #0f1117;
+  --aw-surface: #1a1d27;
+  --aw-surface-raised: #22252f;
+  --aw-border: #2d3140;
+  --aw-text: #f3f4f6;
+  --aw-text-secondary: #9ca3af;
+  --aw-text-muted: #6b7280;
+
+  --aw-sidebar-bg: #0a0c12;
+  --aw-sidebar-text: #9ca3af;
+
+  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --aw-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --aw-shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Basis-Styles ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--aw-font-family);
+  background: var(--aw-bg);
+  color: var(--aw-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Vuetify Dialog Overrides ── */
+.v-overlay__content:has(> .v-card) {
+  border-radius: var(--aw-radius-lg) !important;
+}
+
+.v-dialog .v-card {
+  border-top: 3px solid var(--aw-primary) !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--aw-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--aw-text-muted);
+}
