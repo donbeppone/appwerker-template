@@ -38,19 +38,19 @@ const { drawerOpen, toggleDrawer, activeLayout } = useAppShell()
 }
 
 .aw-topbar-title {
-  font-size: 15px;
+  font-size: var(--aw-typo-body-size);
   font-weight: 600;
   color: var(--aw-text);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--aw-space-sm);
 }
 
 .aw-title-accent {
   width: 3px;
-  height: 16px;
+  height: var(--aw-space-md);
   background: var(--aw-primary);
-  border-radius: 2px;
+  border-radius: var(--aw-radius-sm);
   flex-shrink: 0;
 }
 </style>

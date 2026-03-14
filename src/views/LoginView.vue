@@ -116,31 +116,31 @@ async function handleSubmit() {
   align-items: center;
   justify-content: center;
   background: var(--aw-background);
-  padding: 24px;
+  padding: var(--aw-space-lg);
 }
 
 .aw-login-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: var(--aw-space-xl);
 }
 
 .aw-login-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--aw-space-sm);
 }
 
 .aw-logo-mark {
   width: 28px;
   height: 28px;
   background: var(--aw-text);
-  border-radius: 6px;
+  border-radius: var(--aw-radius-sm);
 }
 
 .aw-app-name {
-  font-size: 20px;
+  font-size: var(--aw-typo-h5-size);
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--aw-text);

@@ -40,8 +40,8 @@ const iconMap = {
 <style scoped>
 .aw-toast-container {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: var(--aw-space-lg);
+  right: var(--aw-space-lg);
   z-index: 9999;
   max-width: 400px;
 }

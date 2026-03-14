@@ -60,7 +60,7 @@ body {
 }
 
 .v-data-table {
-  font-size: 13px !important;
+  font-size: var(--aw-typo-small-size) !important;
 }
 
 .v-tab {
@@ -76,7 +76,7 @@ body {
 
 /* ── Design Editor eigene Styles ── */
 .ds-section {
-  padding: 24px 0;
+  padding: var(--aw-space-lg) 0;
   border-bottom: 1px solid var(--aw-border);
 }
 .ds-section:last-child { border-bottom: none; }
@@ -87,14 +87,14 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--aw-text-secondary);
-  margin-bottom: 16px;
+  margin-bottom: var(--aw-space-md);
 }
 
 .ds-token-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 8px 0;
+  gap: var(--aw-space-md);
+  padding: var(--aw-space-xs) 0;
 }
 
 .ds-token-label {
@@ -111,42 +111,11 @@ body {
   font-family: var(--aw-font-mono);
 }
 
-.ds-btn-group {
-  display: inline-flex;
-  border: 1px solid var(--aw-border);
-  border-radius: var(--aw-radius);
-  overflow: hidden;
-}
-
-.ds-btn-group button {
-  padding: 4px 10px;
-  font-size: 11px;
-  font-weight: 500;
-  font-family: var(--aw-font-mono);
-  border: none;
-  background: transparent;
-  color: var(--aw-text-secondary);
-  cursor: pointer;
-  border-right: 1px solid var(--aw-border);
-  transition: all 0.15s ease;
-}
-
-.ds-btn-group button:last-child { border-right: none; }
-
-.ds-btn-group button:hover {
-  background: var(--aw-border);
-}
-
-.ds-btn-group button.active {
-  background: var(--aw-primary);
-  color: var(--aw-on-primary);
-}
-
 .ds-preview-box {
   background: var(--aw-surface);
   border: 1px solid var(--aw-border);
   border-radius: var(--aw-radius);
-  padding: 16px;
+  padding: var(--aw-space-md);
   transition: all 0.2s ease;
 }
 

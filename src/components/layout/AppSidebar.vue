@@ -100,12 +100,12 @@ async function handleLogout() {
 .aw-sidebar-header {
   display: flex;
   align-items: center;
-  padding: 16px 16px 12px;
+  padding: var(--aw-space-md) var(--aw-space-md) var(--aw-space-sm);
   cursor: pointer;
 }
 
 .aw-sidebar-title {
-  font-size: 16px;
+  font-size: var(--aw-typo-body-size);
   font-weight: 600;
   color: var(--aw-sidebar-active-text);
   letter-spacing: -0.01em;
@@ -129,7 +129,7 @@ async function handleLogout() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px 12px;
+  padding: var(--aw-space-xs) var(--aw-space-sm) var(--aw-space-sm);
 }
 
 .aw-user-info {

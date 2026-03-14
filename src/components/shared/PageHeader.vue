@@ -22,12 +22,12 @@ defineProps({
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 24px 24px 16px;
+  padding: var(--aw-space-lg) var(--aw-space-lg) var(--aw-space-md);
 }
 
 .aw-page-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--aw-space-sm);
   align-items: center;
 }
 </style>

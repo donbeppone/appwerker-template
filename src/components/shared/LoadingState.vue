@@ -17,6 +17,6 @@ defineProps({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 64px 24px;
+  padding: var(--aw-space-2xl) var(--aw-space-lg);
 }
 </style>

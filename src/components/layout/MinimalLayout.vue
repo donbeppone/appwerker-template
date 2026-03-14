@@ -17,7 +17,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'App'
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: var(--aw-space-lg);
   color: var(--aw-text);
 }
 </style>
