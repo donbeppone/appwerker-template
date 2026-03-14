@@ -1,75 +1,9 @@
 /* ═══════════════════════════════════════════════════════════
-   Appwerker Template — Monochrome Design
-   Schwarz / Weiß / Grau — Swiss-Design-Stil
+   Appwerker Template — Base Styles
+   Tokens werden dynamisch von designTokens.js injiziert.
    ═══════════════════════════════════════════════════════════ */
 
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
-:root {
-  /* ── Farben — reines Monochrom ── */
-  --aw-primary: #000000;
-  --aw-primary-hover: #1a1a1a;
-  --aw-on-primary: #ffffff;
-  --aw-secondary: #71717a;
-  --aw-accent: #000000;
-  --aw-error: #dc2626;
-  --aw-success: #16a34a;
-  --aw-warning: #ca8a04;
-  --aw-info: #2563eb;
-
-  --aw-bg: #fafafa;
-  --aw-surface: #ffffff;
-  --aw-surface-raised: #ffffff;
-  --aw-border: #e4e4e7;
-  --aw-text: #09090b;
-  --aw-text-secondary: #71717a;
-  --aw-text-muted: #a1a1aa;
-
-  /* ── Sidebar — dunkles Anthrazit ── */
-  --aw-sidebar-bg: #09090b;
-  --aw-sidebar-text: #a1a1aa;
-  --aw-sidebar-active-bg: rgba(255, 255, 255, 0.08);
-  --aw-sidebar-active-text: #ffffff;
-  --aw-sidebar-width: 220px;
-
-  /* ── Radien — scharf, reduziert ── */
-  --aw-radius-sm: 4px;
-  --aw-radius: 6px;
-  --aw-radius-lg: 8px;
-  --aw-radius-xl: 12px;
-
-  /* ── Schatten — dezent ── */
-  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --aw-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --aw-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
-
-  /* ── Typografie — Instrument Sans ── */
-  --aw-font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif;
-  --aw-font-family-heading: 'Instrument Sans', system-ui, -apple-system, sans-serif;
-  --aw-font-mono: 'JetBrains Mono', 'SF Mono', monospace;
-}
-
-/* ── Dark Mode ── */
-html.dark {
-  --aw-primary: #ffffff;
-  --aw-primary-hover: #e4e4e7;
-  --aw-on-primary: #09090b;
-
-  --aw-bg: #09090b;
-  --aw-surface: #18181b;
-  --aw-surface-raised: #27272a;
-  --aw-border: #3f3f46;
-  --aw-text: #fafafa;
-  --aw-text-secondary: #a1a1aa;
-  --aw-text-muted: #71717a;
-
-  --aw-sidebar-bg: #000000;
-  --aw-sidebar-text: #71717a;
-
-  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --aw-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --aw-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.5);
-}
 
 /* ── Basis ── */
 *, *::before, *::after {
@@ -79,14 +13,14 @@ html.dark {
 body {
   margin: 0;
   font-family: var(--aw-font-family);
-  background: var(--aw-bg);
+  background: var(--aw-background);
   color: var(--aw-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
-/* ── Vuetify Overrides — schärfer, präziser ── */
+/* ── Vuetify Overrides ── */
 .v-overlay__content:has(> .v-card) {
   border-radius: var(--aw-radius-lg) !important;
 }
@@ -108,7 +42,7 @@ body {
   font-size: 13px !important;
 }
 
-/* ── Scrollbar — unsichtbar, erscheint bei Hover ── */
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -120,7 +54,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: transparent;
-  border-radius: 3px;
+  border-radius: var(--aw-radius-sm);
   transition: background 0.2s;
 }
 
@@ -129,7 +63,7 @@ body {
   background: var(--aw-border);
 }
 
-/* ── Fokus-Stil — schwarz, klar ── */
+/* ── Fokus-Stil ── */
 :focus-visible {
   outline: 2px solid var(--aw-primary);
   outline-offset: 2px;

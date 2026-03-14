@@ -19,7 +19,7 @@ const popularFonts = [
           label="Font Family"
           hide-details
         />
-        <div class="mt-4 pa-4 rounded-lg" style="background: var(--aw-bg)">
+        <div class="mt-4 pa-4 rounded-lg" style="background: var(--aw-background)">
           <p :style="{ fontFamily: model.fontFamily }" class="text-body-1">
             Dies ist ein Beispieltext in der gewählten Schrift.
             Zahlen: 0123456789. Sonderzeichen: äöü ÄÖÜ ß.
@@ -37,7 +37,7 @@ const popularFonts = [
           label="Heading Font Family"
           hide-details
         />
-        <div class="mt-4 pa-4 rounded-lg" style="background: var(--aw-bg)">
+        <div class="mt-4 pa-4 rounded-lg" style="background: var(--aw-background)">
           <h2 :style="{ fontFamily: model.headingFontFamily }" class="text-h5 font-weight-bold mb-2">
             Überschrift Beispiel
           </h2>

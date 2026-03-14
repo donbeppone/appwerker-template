@@ -40,7 +40,7 @@ async function handleLogout() {
       <span class="aw-sidebar-title">{{ appName }}</span>
     </div>
 
-    <v-divider class="my-1" style="border-color: rgba(255,255,255,0.08)" />
+    <v-divider class="my-1" style="border-color: var(--aw-sidebar-active-bg)" />
 
     <!-- Haupt-Navigation -->
     <v-list density="compact" nav class="px-2">
@@ -57,7 +57,7 @@ async function handleLogout() {
     </v-list>
 
     <template #append>
-      <v-divider class="mb-1" style="border-color: rgba(255,255,255,0.08)" />
+      <v-divider class="mb-1" style="border-color: var(--aw-sidebar-active-bg)" />
 
       <!-- Einstellungen -->
       <v-list density="compact" nav class="px-2">
@@ -107,7 +107,7 @@ async function handleLogout() {
 .aw-sidebar-title {
   font-size: 16px;
   font-weight: 600;
-  color: white;
+  color: var(--aw-sidebar-active-text);
   letter-spacing: -0.01em;
 }
 
@@ -117,7 +117,7 @@ async function handleLogout() {
 }
 
 .aw-nav-item:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
+  background: var(--aw-sidebar-active-bg) !important;
 }
 
 .aw-nav-item.v-list-item--active {

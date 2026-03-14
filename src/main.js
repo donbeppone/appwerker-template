@@ -9,11 +9,17 @@ import { de } from 'vuetify/locale'
 
 import router from './router/index.js'
 import App from './App.vue'
+import { coreTokenDefaults, deriveTokens, loadCachedTokens } from './lib/designTokens.js'
 
 // Dark Mode aus localStorage wiederherstellen
 if (localStorage.getItem('aw-dark') === 'true') {
   document.documentElement.classList.add('dark')
 }
+
+// Tokens aus Cache oder Defaults laden und Vuetify-Theme ableiten
+const cachedCore = loadCachedTokens()
+const core = { ...coreTokenDefaults, ...cachedCore }
+const derived = deriveTokens(core)
 
 const vuetify = createVuetify({
   locale: {
@@ -25,28 +31,42 @@ const vuetify = createVuetify({
     themes: {
       light: {
         colors: {
-          primary: '#000000',
-          'on-primary': '#ffffff',
-          secondary: '#71717a',
-          error: '#dc2626',
-          success: '#16a34a',
-          warning: '#ca8a04',
-          info: '#2563eb',
-          surface: '#ffffff',
-          background: '#fafafa',
+          primary: derived.light.primary,
+          'on-primary': derived.light['on-primary'],
+          secondary: derived.light.secondary,
+          'on-secondary': derived.light['on-secondary'],
+          error: derived.light.error,
+          'on-error': derived.light['on-error'],
+          success: derived.light.success,
+          'on-success': derived.light['on-success'],
+          warning: derived.light.warning,
+          'on-warning': derived.light['on-warning'],
+          info: derived.light.info,
+          'on-info': derived.light['on-info'],
+          surface: derived.light.surface,
+          'on-surface': derived.light['on-surface'],
+          background: derived.light.background,
+          'on-background': derived.light['on-background'],
         },
       },
       dark: {
         colors: {
-          primary: '#ffffff',
-          'on-primary': '#09090b',
-          secondary: '#a1a1aa',
-          error: '#ef4444',
-          success: '#22c55e',
-          warning: '#eab308',
-          info: '#3b82f6',
-          surface: '#18181b',
-          background: '#09090b',
+          primary: derived.dark.primary,
+          'on-primary': derived.dark['on-primary'],
+          secondary: derived.dark.secondary,
+          'on-secondary': derived.dark['on-secondary'],
+          error: derived.dark.error,
+          'on-error': derived.dark['on-error'],
+          success: derived.dark.success,
+          'on-success': derived.dark['on-success'],
+          warning: derived.dark.warning,
+          'on-warning': derived.dark['on-warning'],
+          info: derived.dark.info,
+          'on-info': derived.dark['on-info'],
+          surface: derived.dark.surface,
+          'on-surface': derived.dark['on-surface'],
+          background: derived.dark.background,
+          'on-background': derived.dark['on-background'],
         },
       },
     },

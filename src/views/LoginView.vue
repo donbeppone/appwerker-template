@@ -116,7 +116,7 @@ async function handleSubmit() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--aw-bg);
+  background: var(--aw-background);
   padding: 24px;
 }
 
