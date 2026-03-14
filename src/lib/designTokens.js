@@ -83,6 +83,7 @@ export const coreTokenDefaults = {
   fontFamily: 'Instrument Sans',
   headingFontFamily: 'Instrument Sans',
   radius: 6,          // Basis-Radius in px, sm/lg/xl werden skaliert
+  spacing: 16,        // Basis-Abstand in px, xs/sm/md/lg/xl werden skaliert
   sidebarBg: '#09090b',
 }
 
@@ -201,6 +202,16 @@ export function deriveTokens(core) {
       xl: `${radiusXl}px`,
     },
 
+    // ── Abstände ──
+    spacing: {
+      xs: `${Math.round(c.spacing * 0.25)}px`,   // 4px
+      sm: `${Math.round(c.spacing * 0.5)}px`,    // 8px
+      md: `${c.spacing}px`,                       // 16px
+      lg: `${Math.round(c.spacing * 1.5)}px`,    // 24px
+      xl: `${Math.round(c.spacing * 2)}px`,      // 32px
+      '2xl': `${Math.round(c.spacing * 3)}px`,   // 48px
+    },
+
     // ── Schatten ──
     shadows: {
       xs: `0 1px 2px rgba(0, 0, 0, ${(shadowAlpha * 0.6).toFixed(2)})`,
@@ -239,6 +250,11 @@ export function injectTokens(coreTokens) {
   root.style.setProperty('--aw-radius', derived.radius.md)
   root.style.setProperty('--aw-radius-lg', derived.radius.lg)
   root.style.setProperty('--aw-radius-xl', derived.radius.xl)
+
+  // Abstände
+  for (const [key, value] of Object.entries(derived.spacing)) {
+    root.style.setProperty(`--aw-space-${key}`, value)
+  }
 
   // Schatten
   root.style.setProperty('--aw-shadow-xs', derived.shadows.xs)
