@@ -3,22 +3,29 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
 import { useAppShell } from '@/composables/useAppShell.js'
+import { usePermissions } from '@/composables/usePermissions.js'
 
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
-const { drawerOpen } = useAppShell()
+const { drawerOpen, isDark, toggleDarkMode } = useAppShell()
+const { canAccess } = usePermissions()
 
 const appName = import.meta.env.VITE_APP_NAME || 'App'
 
 // Navigation — wird von Claude erweitert wenn neue Module hinzugefügt werden
-const navItems = [
+const allNavItems = [
   { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/dashboard' },
   // Neue Module hier einfügen:
-  // { title: 'Kunden', icon: 'mdi-account-group', to: '/kunden' },
+  // { title: 'Kunden', icon: 'mdi-account-group', to: '/kunden', module: 'kunden' },
 ]
 
+const navItems = computed(() =>
+  allNavItems.filter((item) => !item.module || canAccess(item.module)),
+)
+
 const settingsItems = [
+  { title: 'Benutzer', icon: 'mdi-account-cog-outline', to: '/einstellungen/benutzer' },
   { title: 'Design', icon: 'mdi-palette', to: '/einstellungen/design' },
 ]
 
@@ -73,19 +80,28 @@ async function handleLogout() {
         />
       </v-list>
 
-      <!-- User + Logout -->
+      <!-- User + Actions -->
       <div class="aw-sidebar-footer">
-        <div class="aw-user-info" v-if="auth.user">
+        <div class="aw-user-info" v-if="auth.user" @click="router.push('/profil')" style="cursor: pointer">
           <v-icon size="18" class="mr-2">mdi-account-circle</v-icon>
           <span class="text-truncate text-body-2">{{ auth.user.name || auth.user.email }}</span>
         </div>
-        <v-btn
-          variant="text"
-          size="small"
-          icon="mdi-logout"
-          @click="handleLogout"
-          class="aw-logout-btn"
-        />
+        <div class="aw-footer-actions">
+          <v-btn
+            variant="text"
+            size="small"
+            :icon="isDark ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+            @click="toggleDarkMode"
+            class="aw-logout-btn"
+          />
+          <v-btn
+            variant="text"
+            size="small"
+            icon="mdi-logout"
+            @click="handleLogout"
+            class="aw-logout-btn"
+          />
+        </div>
       </div>
     </template>
   </v-navigation-drawer>
@@ -138,6 +154,12 @@ async function handleLogout() {
   color: var(--aw-sidebar-text);
   overflow: hidden;
   flex: 1;
+}
+
+.aw-footer-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .aw-logout-btn {

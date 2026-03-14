@@ -8,15 +8,18 @@ src/
 ├── App.vue                 — Root: Design-Tokens laden, Toast + Confirm
 ├── assets/main.css         — CSS Custom Properties (--aw-*)
 ├── lib/
-│   ├── appwrite.js         — Appwrite Client, Account, Databases, Storage
+│   ├── appwrite.js         — Appwrite Client, Account, Databases, Storage, Functions
 │   ├── designTokens.js     — Token-Injection + Vuetify-Sync
 │   └── crudFactory.js      — Generischer CRUD-Store-Generator
 ├── stores/
-│   ├── auth.js             — Login, Register, Session
+│   ├── auth.js             — Login (OTP + Passwort), Session, Permissions
+│   ├── users.js            — CRUD für users-Collection + Einladung
+│   ├── rollen.js           — CRUD für rollen-Collection
 │   ├── toast.js            — Toast-Queue
 │   ├── confirm.js          — Bestätigungsdialog
 │   └── design.js           — Design-Tokens (Appwrite)
 ├── composables/
+│   ├── usePermissions.js   — Granulares module:action Berechtigungssystem
 │   ├── useToast.js         — Toast-Wrapper: useToast().add({...})
 │   ├── useConfirm.js       — Confirm-Wrapper: useConfirm().require({...})
 │   ├── useAutoSave.js      — Debounced Auto-Save
@@ -26,10 +29,12 @@ src/
 │   ├── shared/             — Toast, Confirm, EmptyState, LoadingState, PageHeader
 │   └── design/             — Design-Editor-Komponenten
 ├── views/
-│   ├── LoginView.vue       — Login/Register
+│   ├── LoginView.vue       — OTP-Login (E-Mail → Code) + Admin-Passwort-Fallback
 │   ├── DashboardView.vue   — Dashboard
+│   ├── ProfileView.vue     — Eigene Daten bearbeiten (Name, E-Mail, Passwort)
+│   ├── UsersView.vue       — Benutzerverwaltung + Rollenverwaltung (Admin)
 │   └── DesignView.vue      — Design-Editor
-└── router/index.js         — Vue Router mit Auth-Guards
+└── router/index.js         — Vue Router mit Auth-Guards + Permission-Guards
 ```
 
 ## Neues CRUD-Modul hinzufügen
@@ -165,9 +170,42 @@ async function remove(item) {
 ### 4. Navigation erweitern
 
 ```javascript
-// In src/components/layout/AppSidebar.vue — navItems Array erweitern:
-{ title: 'Kunden', icon: 'mdi-account-group', to: '/kunden' },
+// In src/components/layout/AppSidebar.vue — allNavItems Array erweitern:
+{ title: 'Kunden', icon: 'mdi-account-group', to: '/kunden', module: 'kunden' },
 ```
+
+### 5. Berechtigungen registrieren
+
+```javascript
+// In src/composables/usePermissions.js — MODULES erweitern:
+kunden: { label: 'Kunden', actions: ['read', 'write'] },
+```
+
+### 6. Route mit Permission-Guard
+
+```javascript
+// In src/router/index.js — meta.module setzt Permission-Prüfung:
+{
+  path: 'kunden',
+  component: () => import('@/views/KundenView.vue'),
+  meta: { title: 'Kunden', module: 'kunden' },
+},
+```
+
+## Berechtigungssystem
+
+- **Format:** `module:action` (z.B. `kunden:read`, `kunden:write`)
+- **null** = Vollzugriff (Admin oder kein `users`-Eintrag)
+- **Rollen-Collection:** `rollen` mit Feldern `name`, `istAdmin`, `berechtigungen[]`, `sortierung`
+- **Users-Collection:** `users` mit Feldern `userId`, `vorname`, `nachname`, `email`, `rolle`, `profilBild`
+- **Router:** `meta.public: true` = ohne Login, `meta.module: 'xyz'` = Berechtigung prüfen
+- **Sidebar:** Nav-Items mit `module`-Feld werden automatisch gefiltert
+
+## Authentifizierung
+
+- **OTP-Login:** E-Mail → 6-stelliger Code → Session (erfordert SMTP in Appwrite)
+- **Admin-Login:** E-Mail + Passwort als Fallback
+- **Token-Login:** Auto-Login via URL-Parameter (`?aw-user=...&aw-secret=...`)
 
 ## DSGVO / Datenschutz
 
@@ -180,7 +218,8 @@ async function remove(item) {
 
 - Alle Texte auf **Deutsch**
 - Datenbank-ID: immer `'main'` (DB_ID aus appwrite.js)
-- Auth: `useAuthStore()` → `user`, `login()`, `register()`, `logout()`
+- Auth: `useAuthStore()` → `user`, `loginWithOTP()`, `verifyOTP()`, `login()`, `logout()`
+- Berechtigungen: `usePermissions()` → `canAccess()`, `canRead()`, `canWrite()`
 - Datenbank: `import { databases, DB_ID } from '@/lib/appwrite'`
 - UI: **Vuetify 4** Komponenten (v-card, v-btn, v-data-table, v-dialog, ...)
 - Icons: Material Design Icons (mdi-*)

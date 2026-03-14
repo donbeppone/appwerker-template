@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
+import { checkAccess } from '@/composables/usePermissions.js'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -7,6 +8,11 @@ const router = createRouter({
     {
       path: '/login',
       component: () => import('@/views/LoginView.vue'),
+      meta: { public: true },
+    },
+    {
+      path: '/upload',
+      component: () => import('@/views/MobileUploadView.vue'),
       meta: { public: true },
     },
     {
@@ -21,16 +27,26 @@ const router = createRouter({
           meta: { title: 'Dashboard' },
         },
         {
+          path: 'profil',
+          component: () => import('@/views/ProfileView.vue'),
+          meta: { title: 'Profil' },
+        },
+        {
           path: 'einstellungen/design',
           component: () => import('@/views/DesignView.vue'),
           meta: { title: 'Design' },
+        },
+        {
+          path: 'einstellungen/benutzer',
+          component: () => import('@/views/UsersView.vue'),
+          meta: { title: 'Benutzer' },
         },
         // ═══ Neue Module hier einfügen ═══
         // Beispiel:
         // {
         //   path: 'kunden',
         //   component: () => import('@/views/KundenView.vue'),
-        //   meta: { title: 'Kunden' },
+        //   meta: { title: 'Kunden', module: 'kunden' },
         // },
       ],
     },
@@ -38,15 +54,15 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  // 1. Öffentliche Routen
   if (to.meta.public) return true
 
   const auth = useAuthStore()
 
-  // Auto-Login via Appwrite Token (von Appwerker gesetzt)
+  // 2. Auto-Login via Appwrite Token (von Appwerker gesetzt)
   if (!auth.user && to.query['aw-user'] && to.query['aw-secret']) {
     try {
       await auth.loginWithToken(to.query['aw-user'], to.query['aw-secret'])
-      // Parameter aus URL entfernen
       const { 'aw-user': _u, 'aw-secret': _s, ...cleanQuery } = to.query
       return { path: to.path, query: cleanQuery }
     } catch {
@@ -54,6 +70,7 @@ router.beforeEach(async (to) => {
     }
   }
 
+  // 3. Auth prüfen
   if (!auth.user) {
     try {
       await auth.fetchUser()
@@ -61,6 +78,12 @@ router.beforeEach(async (to) => {
     } catch {
       return '/login'
     }
+  }
+
+  // 4. Modul-Berechtigung prüfen
+  const requiredModule = to.meta?.module
+  if (requiredModule && !checkAccess(auth.userPermissions, requiredModule)) {
+    return '/dashboard'
   }
 
   return true
