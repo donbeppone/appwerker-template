@@ -84,7 +84,49 @@ export const coreTokenDefaults = {
   headingFontFamily: 'Instrument Sans',
   radius: 6,          // Basis-Radius in px, sm/lg/xl werden skaliert
   spacing: 16,        // Basis-Abstand in px, xs/sm/md/lg/xl werden skaliert
+  baseFontSize: 16,   // Body-Schriftgröße in px
+  typeScaleRatio: 1.25, // Skalierung zwischen Überschriften-Ebenen (Major Third)
+  typoOverrides: null,  // JSON-String für individuelle Überschreibungen { h1: { fontSize, ... }, ... }
   sidebarBg: '#09090b',
+}
+
+// ─── Typografische Skala ─────────────────────────────────
+
+export const typeScalePresets = [
+  { title: 'Minor Second (1.067)', value: 1.067 },
+  { title: 'Major Second (1.125)', value: 1.125 },
+  { title: 'Minor Third (1.200)', value: 1.200 },
+  { title: 'Major Third (1.250)', value: 1.250 },
+  { title: 'Perfect Fourth (1.333)', value: 1.333 },
+  { title: 'Augmented Fourth (1.414)', value: 1.414 },
+  { title: 'Perfect Fifth (1.500)', value: 1.500 },
+]
+
+/**
+ * Typografie-Presets aus Basis-Größe + Skalierungsfaktor ableiten.
+ * Individuelle Überschreibungen pro Element möglich.
+ */
+export function deriveTypography(core) {
+  const base = core.baseFontSize || 16
+  const ratio = core.typeScaleRatio || 1.25
+  const overrides = core.typoOverrides ? (typeof core.typoOverrides === 'string' ? JSON.parse(core.typoOverrides) : core.typoOverrides) : {}
+
+  const defaults = {
+    h1: { fontSize: Math.min(Math.round(base * ratio ** 5), 96), lineHeight: 110, weight: 700, font: 'heading' },
+    h2: { fontSize: Math.min(Math.round(base * ratio ** 4), 72), lineHeight: 115, weight: 700, font: 'heading' },
+    h3: { fontSize: Math.min(Math.round(base * ratio ** 3), 56), lineHeight: 120, weight: 600, font: 'heading' },
+    h4: { fontSize: Math.round(base * ratio ** 2), lineHeight: 125, weight: 600, font: 'heading' },
+    h5: { fontSize: Math.round(base * ratio), lineHeight: 130, weight: 600, font: 'heading' },
+    h6: { fontSize: base, lineHeight: 135, weight: 600, font: 'heading' },
+    body: { fontSize: base, lineHeight: 160, weight: 400, font: 'body' },
+    small: { fontSize: Math.round(base * 0.875), lineHeight: 150, weight: 400, font: 'body' },
+  }
+
+  const result = {}
+  for (const [key, def] of Object.entries(defaults)) {
+    result[key] = { ...def, ...(overrides[key] || {}) }
+  }
+  return result
 }
 
 /**
@@ -225,6 +267,9 @@ export function deriveTokens(core) {
       headingFontFamily: `'${c.headingFontFamily}', system-ui, -apple-system, sans-serif`,
       mono: "'JetBrains Mono', 'SF Mono', monospace",
     },
+
+    // ── Typografie-Presets ──
+    typo: deriveTypography(c),
   }
 }
 
@@ -265,6 +310,17 @@ export function injectTokens(coreTokens) {
   root.style.setProperty('--aw-font-family', derived.typography.fontFamily)
   root.style.setProperty('--aw-font-family-heading', derived.typography.headingFontFamily)
   root.style.setProperty('--aw-font-mono', derived.typography.mono)
+
+  // Typografie-Presets
+  for (const [key, preset] of Object.entries(derived.typo)) {
+    root.style.setProperty(`--aw-typo-${key}-size`, `${preset.fontSize}px`)
+    root.style.setProperty(`--aw-typo-${key}-line-height`, `${preset.lineHeight}%`)
+    root.style.setProperty(`--aw-typo-${key}-weight`, `${preset.weight}`)
+    const fontStack = preset.font === 'heading'
+      ? derived.typography.headingFontFamily
+      : derived.typography.fontFamily
+    root.style.setProperty(`--aw-typo-${key}-font`, fontStack)
+  }
 
   // Dark Mode: CSS-Klasse mit eigenem Style-Block
   injectDarkModeStyles(derived)

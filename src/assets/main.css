@@ -69,6 +69,16 @@ body {
   outline-offset: 2px;
 }
 
+/* ── Vuetify Typografie-Overrides (via Design-Tokens) ── */
+.text-h1 { font-size: var(--aw-typo-h1-size) !important; line-height: var(--aw-typo-h1-line-height) !important; font-weight: var(--aw-typo-h1-weight) !important; font-family: var(--aw-typo-h1-font) !important; }
+.text-h2 { font-size: var(--aw-typo-h2-size) !important; line-height: var(--aw-typo-h2-line-height) !important; font-weight: var(--aw-typo-h2-weight) !important; font-family: var(--aw-typo-h2-font) !important; }
+.text-h3 { font-size: var(--aw-typo-h3-size) !important; line-height: var(--aw-typo-h3-line-height) !important; font-weight: var(--aw-typo-h3-weight) !important; font-family: var(--aw-typo-h3-font) !important; }
+.text-h4 { font-size: var(--aw-typo-h4-size) !important; line-height: var(--aw-typo-h4-line-height) !important; font-weight: var(--aw-typo-h4-weight) !important; font-family: var(--aw-typo-h4-font) !important; }
+.text-h5 { font-size: var(--aw-typo-h5-size) !important; line-height: var(--aw-typo-h5-line-height) !important; font-weight: var(--aw-typo-h5-weight) !important; font-family: var(--aw-typo-h5-font) !important; }
+.text-h6 { font-size: var(--aw-typo-h6-size) !important; line-height: var(--aw-typo-h6-line-height) !important; font-weight: var(--aw-typo-h6-weight) !important; font-family: var(--aw-typo-h6-font) !important; }
+.text-body-1 { font-size: var(--aw-typo-body-size) !important; line-height: var(--aw-typo-body-line-height) !important; font-weight: var(--aw-typo-body-weight) !important; }
+.text-body-2, .text-caption { font-size: var(--aw-typo-small-size) !important; line-height: var(--aw-typo-small-line-height) !important; }
+
 /* ── Monospace für Daten ── */
 .mono {
   font-family: var(--aw-font-mono);
