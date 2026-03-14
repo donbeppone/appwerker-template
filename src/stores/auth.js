@@ -24,10 +24,15 @@ export const useAuthStore = defineStore('auth', () => {
     await login(email, password)
   }
 
+  async function loginWithToken(userId, secret) {
+    await account.createSession(userId, secret)
+    await fetchUser()
+  }
+
   async function logout() {
     await account.deleteSession('current')
     user.value = null
   }
 
-  return { user, fetchUser, login, register, logout }
+  return { user, fetchUser, login, loginWithToken, register, logout }
 })

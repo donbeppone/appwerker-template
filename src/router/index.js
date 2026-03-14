@@ -51,15 +51,15 @@ router.beforeEach(async (to) => {
 
   const auth = useAuthStore()
 
-  // Auto-Login via URL-Parameter (von Appwerker gesetzt)
-  if (!auth.user && to.query['aw-email'] && to.query['aw-pass']) {
+  // Auto-Login via Appwrite Token (von Appwerker gesetzt)
+  if (!auth.user && to.query['aw-user'] && to.query['aw-secret']) {
     try {
-      await auth.login(to.query['aw-email'], to.query['aw-pass'])
+      await auth.loginWithToken(to.query['aw-user'], to.query['aw-secret'])
       // Parameter aus URL entfernen
-      const { 'aw-email': _e, 'aw-pass': _p, ...cleanQuery } = to.query
+      const { 'aw-user': _u, 'aw-secret': _s, ...cleanQuery } = to.query
       return { path: to.path, query: cleanQuery }
     } catch {
-      // Login fehlgeschlagen → normal zum Login
+      // Token-Login fehlgeschlagen → normal zum Login
     }
   }
 
