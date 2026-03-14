@@ -20,8 +20,30 @@ body {
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
-/* ── Vuetify Overrides ── */
-.v-overlay__content:has(> .v-card) {
+/* ── Vuetify Overrides — Radien via Token ── */
+.v-card {
+  border-radius: var(--aw-radius-lg) !important;
+  border: 1px solid var(--aw-border) !important;
+  box-shadow: var(--aw-shadow) !important;
+}
+
+.v-btn {
+  border-radius: var(--aw-radius) !important;
+  letter-spacing: -0.01em !important;
+}
+
+.v-text-field .v-field,
+.v-textarea .v-field,
+.v-select .v-field,
+.v-autocomplete .v-field {
+  border-radius: var(--aw-radius) !important;
+}
+
+.v-chip {
+  border-radius: var(--aw-radius-sm) !important;
+}
+
+.v-dialog .v-overlay__content {
   border-radius: var(--aw-radius-lg) !important;
 }
 
@@ -29,18 +51,19 @@ body {
   border-top: 2px solid var(--aw-primary) !important;
 }
 
-.v-btn {
-  letter-spacing: -0.01em !important;
-}
-
-.v-card {
-  border: 1px solid var(--aw-border) !important;
-  box-shadow: var(--aw-shadow) !important;
-}
-
 .v-data-table {
   font-size: 13px !important;
 }
+
+.v-tab {
+  border-radius: var(--aw-radius) var(--aw-radius) 0 0 !important;
+}
+
+/* ── Vuetify Rounded-Utilities mit Tokens ── */
+.rounded-lg { border-radius: var(--aw-radius-lg) !important; }
+.rounded { border-radius: var(--aw-radius) !important; }
+.rounded-sm { border-radius: var(--aw-radius-sm) !important; }
+.rounded-xl { border-radius: var(--aw-radius-xl) !important; }
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {

@@ -15,7 +15,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'App'
   <v-container fluid class="px-6">
     <v-row>
       <v-col cols="12" md="4">
-        <v-card class="pa-6" rounded="lg">
+        <v-card class="pa-6" >
           <div class="d-flex align-center mb-3">
             <v-icon color="primary" size="24" class="mr-3">mdi-account</v-icon>
             <span class="text-body-1 font-weight-medium">Angemeldet als</span>
@@ -26,7 +26,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'App'
       </v-col>
 
       <v-col cols="12" md="8">
-        <v-card class="pa-6" rounded="lg">
+        <v-card class="pa-6" >
           <div class="d-flex align-center mb-3">
             <v-icon color="primary" size="24" class="mr-3">mdi-rocket-launch</v-icon>
             <span class="text-body-1 font-weight-medium">Erste Schritte</span>

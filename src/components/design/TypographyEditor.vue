@@ -138,7 +138,7 @@ onMounted(() => {
     <h3 class="text-body-1 font-weight-bold mb-4">Schriftarten</h3>
     <v-row class="mb-6">
       <v-col cols="12" md="6">
-        <v-card variant="outlined" rounded="lg" class="pa-5">
+        <v-card variant="outlined" class="pa-5">
           <div class="text-body-2 font-weight-medium mb-2">Textschrift</div>
           <v-select
             :model-value="model.fontFamily"
@@ -156,7 +156,7 @@ onMounted(() => {
         </v-card>
       </v-col>
       <v-col cols="12" md="6">
-        <v-card variant="outlined" rounded="lg" class="pa-5">
+        <v-card variant="outlined" class="pa-5">
           <div class="text-body-2 font-weight-medium mb-2">Überschriften-Schrift</div>
           <v-select
             :model-value="model.headingFontFamily"
@@ -179,7 +179,7 @@ onMounted(() => {
     <h3 class="text-body-1 font-weight-bold mb-4">Typografische Skala</h3>
     <v-row class="mb-6">
       <v-col cols="12" sm="6" md="4">
-        <v-card variant="outlined" rounded="lg" class="pa-5">
+        <v-card variant="outlined" class="pa-5">
           <div class="text-body-2 font-weight-medium mb-2">Basis-Schriftgröße</div>
           <div class="d-flex align-center gap-3">
             <v-slider
@@ -197,7 +197,7 @@ onMounted(() => {
         </v-card>
       </v-col>
       <v-col cols="12" sm="6" md="4">
-        <v-card variant="outlined" rounded="lg" class="pa-5">
+        <v-card variant="outlined" class="pa-5">
           <div class="text-body-2 font-weight-medium mb-2">Skalierungsfaktor</div>
           <v-select
             v-model="model.typeScaleRatio"
@@ -216,15 +216,14 @@ onMounted(() => {
       Alle Werte werden aus der Skala abgeleitet. Individuelle Änderungen werden als Überschreibung gespeichert.
     </p>
 
-    <div class="d-flex flex-column gap-3">
+    <div class="d-flex flex-column" style="gap: var(--aw-space-md)">
       <v-card
         v-for="def in presetDefs"
         :key="def.key"
         variant="outlined"
-        rounded="lg"
         class="pa-5"
       >
-        <div class="d-flex align-start gap-4">
+        <div class="d-flex align-start" style="gap: var(--aw-space-lg)">
           <!-- Tag-Label -->
           <div class="aw-tag-label text-center" style="min-width: 48px">
             <span class="text-caption font-weight-bold text-medium-emphasis">{{ def.tag }}</span>
@@ -238,7 +237,7 @@ onMounted(() => {
             </div>
 
             <!-- Controls -->
-            <div class="d-flex flex-wrap gap-3 align-center">
+            <div class="d-flex flex-wrap align-center" style="gap: var(--aw-space-md)">
               <v-select
                 :model-value="derivedTypo[def.key].font"
                 @update:model-value="setOverride(def.key, 'font', $event)"

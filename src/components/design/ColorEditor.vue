@@ -44,7 +44,7 @@ const derivedPreview = computed(() => [
         sm="6"
         md="4"
       >
-        <v-card variant="outlined" rounded="lg" class="pa-4">
+        <v-card variant="outlined" class="pa-4">
           <div class="d-flex align-center gap-3 mb-2">
             <input
               type="color"
@@ -89,7 +89,7 @@ const derivedPreview = computed(() => [
           sm="6"
           md="3"
         >
-          <v-card variant="outlined" rounded="lg" class="pa-4">
+          <v-card variant="outlined" class="pa-4">
             <div class="d-flex align-center gap-3">
               <input
                 type="color"

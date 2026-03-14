@@ -42,7 +42,6 @@ function selectLayout(value) {
       <v-card
         :variant="model === layout.value ? 'flat' : 'outlined'"
         :color="model === layout.value ? 'primary' : undefined"
-        rounded="lg"
         class="pa-6 cursor-pointer"
         :class="{ 'aw-layout-active': model === layout.value }"
         @click="selectLayout(layout.value)"

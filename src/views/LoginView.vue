@@ -85,7 +85,6 @@ async function handleSubmit() {
               variant="flat"
               block
               size="large"
-              rounded="lg"
               :loading="loading"
             >
               {{ mode === 'login' ? 'Anmelden' : 'Registrieren' }}

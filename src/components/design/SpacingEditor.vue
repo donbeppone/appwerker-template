@@ -28,7 +28,7 @@ const spacingPreview = computed(() => [
   <v-row>
     <!-- Abstände -->
     <v-col cols="12" md="4">
-      <v-card variant="outlined" rounded="lg" class="pa-6">
+      <v-card variant="outlined" class="pa-6">
         <h3 class="text-body-1 font-weight-bold mb-2">Abstände</h3>
         <p class="text-caption text-medium-emphasis mb-4">
           Ein Wert steuert alle Abstände. Die Varianten werden automatisch skaliert.
@@ -75,7 +75,7 @@ const spacingPreview = computed(() => [
 
     <!-- Border Radius -->
     <v-col cols="12" md="4">
-      <v-card variant="outlined" rounded="lg" class="pa-6">
+      <v-card variant="outlined" class="pa-6">
         <h3 class="text-body-1 font-weight-bold mb-2">Radien</h3>
         <p class="text-caption text-medium-emphasis mb-4">
           Ein Wert steuert alle Radien. Die Varianten werden automatisch skaliert.
@@ -121,7 +121,7 @@ const spacingPreview = computed(() => [
 
     <!-- Schatten -->
     <v-col cols="12" md="4">
-      <v-card variant="outlined" rounded="lg" class="pa-6">
+      <v-card variant="outlined" class="pa-6">
         <h3 class="text-body-1 font-weight-bold mb-2">Schatten</h3>
         <p class="text-caption text-medium-emphasis mb-4">
           Werden automatisch aus dem Hintergrund abgeleitet.

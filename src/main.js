@@ -82,12 +82,12 @@ const vuetify = createVuetify({
     VBtn: {
       style: 'font-family: inherit; text-transform: none; letter-spacing: -0.01em; font-weight: 500;',
     },
-    VTextField: { variant: 'outlined', density: 'compact', color: 'primary', rounded: 'lg' },
-    VTextarea: { variant: 'outlined', density: 'compact', color: 'primary', rounded: 'lg' },
-    VSelect: { variant: 'outlined', density: 'compact', color: 'primary', rounded: 'lg' },
-    VAutocomplete: { variant: 'outlined', density: 'compact', color: 'primary', rounded: 'lg' },
+    VTextField: { variant: 'outlined', density: 'compact', color: 'primary' },
+    VTextarea: { variant: 'outlined', density: 'compact', color: 'primary' },
+    VSelect: { variant: 'outlined', density: 'compact', color: 'primary' },
+    VAutocomplete: { variant: 'outlined', density: 'compact', color: 'primary' },
     VSwitch: { color: 'primary', density: 'compact' },
-    VCard: { rounded: 'lg', flat: true },
+    VCard: { flat: true },
     VDataTableFooter: {
       itemsPerPageOptions: [10, 25, 50, 100],
       itemsPerPage: 25,
