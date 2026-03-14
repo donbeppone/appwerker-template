@@ -1,8 +1,7 @@
 <script setup>
-import { onMounted, computed } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { useDesignStore } from '@/stores/design.js'
 import { useAutoSave } from '@/composables/useAutoSave.js'
-import { useToast } from '@/composables/useToast.js'
 import PageHeader from '@/components/shared/PageHeader.vue'
 import ColorEditor from '@/components/design/ColorEditor.vue'
 import TypographyEditor from '@/components/design/TypographyEditor.vue'
@@ -10,7 +9,7 @@ import SpacingEditor from '@/components/design/SpacingEditor.vue'
 import LayoutPicker from '@/components/design/LayoutPicker.vue'
 
 const design = useDesignStore()
-const toast = useToast()
+const tab = ref('colors')
 
 const { status, markLoaded } = useAutoSave(
   () => design.tokens,
@@ -27,6 +26,9 @@ const statusColor = computed(() => {
   const map = { saved: 'success', error: 'error', saving: 'info', pending: 'warning' }
   return map[status.value] || 'grey'
 })
+
+// Live-Preview: CSS sofort aktualisieren bei jeder Änderung
+watch(() => design.tokens, () => design.applyTokens(), { deep: true })
 
 onMounted(async () => {
   await design.fetchTokens()
@@ -47,22 +49,19 @@ onMounted(async () => {
     <v-tabs v-model="tab" class="mb-6">
       <v-tab value="colors">Farben</v-tab>
       <v-tab value="typography">Typografie</v-tab>
-      <v-tab value="spacing">Abstände</v-tab>
+      <v-tab value="spacing">Abstände & Radien</v-tab>
       <v-tab value="layout">Layout</v-tab>
     </v-tabs>
 
     <v-tabs-window v-model="tab">
       <v-tabs-window-item value="colors">
-        <ColorEditor v-model="design.tokens.colors" />
+        <ColorEditor v-model="design.tokens" />
       </v-tabs-window-item>
       <v-tabs-window-item value="typography">
-        <TypographyEditor v-model="design.tokens.typography" />
+        <TypographyEditor v-model="design.tokens" />
       </v-tabs-window-item>
       <v-tabs-window-item value="spacing">
-        <SpacingEditor
-          v-model:borderRadius="design.tokens.borderRadius"
-          v-model:shadows="design.tokens.shadows"
-        />
+        <SpacingEditor v-model="design.tokens" />
       </v-tabs-window-item>
       <v-tabs-window-item value="layout">
         <LayoutPicker v-model="design.tokens.layout" />
@@ -70,9 +69,3 @@ onMounted(async () => {
     </v-tabs-window>
   </v-container>
 </template>
-
-<script>
-export default {
-  data: () => ({ tab: 'colors' }),
-}
-</script>

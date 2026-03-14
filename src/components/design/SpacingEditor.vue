@@ -1,13 +1,20 @@
 <script setup>
-const borderRadius = defineModel('borderRadius', { type: Object, required: true })
-const shadows = defineModel('shadows', { type: Object, required: true })
+import { computed } from 'vue'
 
-const radiusDefs = [
-  { key: 'sm', label: 'Klein', desc: 'Chips, Tags' },
-  { key: 'md', label: 'Mittel', desc: 'Buttons, Inputs' },
-  { key: 'lg', label: 'Groß', desc: 'Cards, Dialoge' },
-  { key: 'xl', label: 'Extra Groß', desc: 'Modals, Banner' },
-]
+const model = defineModel({ type: Object, required: true })
+
+// Abgeleitete Radien aus Basis-Radius
+const radiusSm = computed(() => Math.max(2, Math.round((model.value.radius || 6) * 0.67)))
+const radiusBase = computed(() => model.value.radius || 6)
+const radiusLg = computed(() => Math.round((model.value.radius || 6) * 1.33))
+const radiusXl = computed(() => Math.round((model.value.radius || 6) * 2))
+
+const radiusPreview = computed(() => [
+  { label: 'Klein (sm)', value: radiusSm.value, use: 'Chips, Tags' },
+  { label: 'Mittel (md)', value: radiusBase.value, use: 'Buttons, Inputs' },
+  { label: 'Groß (lg)', value: radiusLg.value, use: 'Cards, Dialoge' },
+  { label: 'Extra Groß (xl)', value: radiusXl.value, use: 'Modals, Banner' },
+])
 </script>
 
 <template>
@@ -15,56 +22,61 @@ const radiusDefs = [
     <!-- Border Radius -->
     <v-col cols="12" md="6">
       <v-card variant="outlined" rounded="lg" class="pa-6">
-        <h3 class="text-body-1 font-weight-bold mb-4">Border Radius</h3>
+        <h3 class="text-body-1 font-weight-bold mb-2">Border Radius</h3>
+        <p class="text-caption text-medium-emphasis mb-4">
+          Ein Wert steuert alle Radien. Die Varianten werden automatisch skaliert.
+        </p>
 
-        <div v-for="def in radiusDefs" :key="def.key" class="mb-4">
-          <div class="d-flex justify-space-between align-center mb-1">
-            <span class="text-body-2">{{ def.label }}</span>
-            <span class="text-caption text-medium-emphasis">{{ borderRadius[def.key] }}</span>
-          </div>
-          <v-slider
-            :model-value="parseInt(borderRadius[def.key]) || 0"
-            @update:model-value="borderRadius[def.key] = $event + 'px'"
-            :min="0"
-            :max="30"
-            :step="1"
-            hide-details
-            color="primary"
-            thumb-label
-          />
+        <div class="d-flex justify-space-between align-center mb-2">
+          <span class="text-body-2 font-weight-medium">Basis-Radius</span>
+          <span class="text-body-2 font-weight-bold">{{ radiusBase }}px</span>
+        </div>
+        <v-slider
+          v-model="model.radius"
+          :min="0"
+          :max="24"
+          :step="1"
+          hide-details
+          color="primary"
+          thumb-label
+        />
+
+        <!-- Preview der abgeleiteten Radien -->
+        <div class="mt-6">
           <div
-            class="mt-2 d-flex align-center justify-center"
-            style="height: 48px"
+            v-for="r in radiusPreview"
+            :key="r.label"
+            class="d-flex align-center gap-4 mb-4"
           >
             <div
               :style="{
-                width: '120px',
-                height: '40px',
+                width: '80px',
+                height: '36px',
                 background: 'var(--aw-primary)',
-                borderRadius: borderRadius[def.key],
+                borderRadius: r.value + 'px',
+                flexShrink: 0,
               }"
             />
+            <div>
+              <div class="text-body-2 font-weight-medium">{{ r.label }}</div>
+              <div class="text-caption text-medium-emphasis">{{ r.value }}px — {{ r.use }}</div>
+            </div>
           </div>
         </div>
       </v-card>
     </v-col>
 
-    <!-- Schatten -->
+    <!-- Schatten (nur Preview) -->
     <v-col cols="12" md="6">
       <v-card variant="outlined" rounded="lg" class="pa-6">
-        <h3 class="text-body-1 font-weight-bold mb-4">Schatten</h3>
+        <h3 class="text-body-1 font-weight-bold mb-2">Schatten</h3>
+        <p class="text-caption text-medium-emphasis mb-4">
+          Werden automatisch aus dem Hintergrund abgeleitet.
+        </p>
 
         <div class="d-flex flex-column gap-6">
-          <div v-for="(label, key) in { sm: 'Klein', md: 'Mittel', lg: 'Groß' }" :key="key">
+          <div v-for="(label, key) in { xs: 'Klein', md: 'Mittel', lg: 'Groß' }" :key="key">
             <span class="text-body-2 font-weight-medium">{{ label }}</span>
-            <v-text-field
-              v-model="shadows[key]"
-              density="compact"
-              variant="outlined"
-              hide-details
-              class="mt-2"
-              style="font-family: monospace; font-size: 12px"
-            />
             <div class="d-flex justify-center mt-3">
               <div
                 :style="{
@@ -72,7 +84,7 @@ const radiusDefs = [
                   height: '60px',
                   background: 'var(--aw-surface)',
                   borderRadius: 'var(--aw-radius)',
-                  boxShadow: shadows[key],
+                  boxShadow: `var(--aw-shadow${key === 'md' ? '' : '-' + key})`,
                 }"
               />
             </div>

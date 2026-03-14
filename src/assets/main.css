@@ -3,7 +3,7 @@
    Tokens werden dynamisch von designTokens.js injiziert.
    ═══════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* Fonts: self-hosted via @fontsource (importiert in main.js) */
 
 /* ── Basis ── */
 *, *::before, *::after {

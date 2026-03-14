@@ -172,6 +172,13 @@ async function remove(item) {
 { title: 'Kunden', icon: 'mdi-account-group', to: '/kunden' },
 ```
 
+## DSGVO / Datenschutz
+
+- **KEINE externen Dienste** im Frontend einbinden (Google Fonts, CDNs, Analytics, etc.)
+- Schriften müssen **lokal gebündelt** werden (self-hosted via npm oder /public/fonts/)
+- Alle Daten bleiben auf dem eigenen Appwrite-Server
+- Keine Tracking-Skripte, keine externen Stylesheets
+
 ## Konventionen
 
 - Alle Texte auf **Deutsch**
