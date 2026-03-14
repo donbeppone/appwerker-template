@@ -50,6 +50,19 @@ router.beforeEach(async (to) => {
   if (to.meta.public) return true
 
   const auth = useAuthStore()
+
+  // Auto-Login via URL-Parameter (von Appwerker gesetzt)
+  if (!auth.user && to.query['aw-email'] && to.query['aw-pass']) {
+    try {
+      await auth.login(to.query['aw-email'], to.query['aw-pass'])
+      // Parameter aus URL entfernen
+      const { 'aw-email': _e, 'aw-pass': _p, ...cleanQuery } = to.query
+      return { path: to.path, query: cleanQuery }
+    } catch {
+      // Login fehlgeschlagen → normal zum Login
+    }
+  }
+
   if (!auth.user) {
     try {
       await auth.fetchUser()
