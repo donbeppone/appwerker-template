@@ -15,16 +15,17 @@ import { de } from 'vuetify/locale'
 
 import router from './router/index.js'
 import App from './App.vue'
-import { coreTokenDefaults, deriveTokens, loadCachedTokens } from './lib/designTokens.js'
+import { coreTokenDefaults, deriveTokens, injectTokens, loadCachedTokens } from './lib/designTokens.js'
 
 // Dark Mode aus localStorage wiederherstellen
 if (localStorage.getItem('aw-dark') === 'true') {
   document.documentElement.classList.add('dark')
 }
 
-// Tokens aus Cache oder Defaults laden und Vuetify-Theme ableiten
+// Tokens aus Cache oder Defaults laden → CSS sofort injizieren (kein Flackern)
 const cachedCore = loadCachedTokens()
 const core = { ...coreTokenDefaults, ...cachedCore }
+injectTokens(core)
 const derived = deriveTokens(core)
 
 const vuetify = createVuetify({

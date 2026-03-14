@@ -10,39 +10,30 @@ const router = createRouter({
       meta: { public: true },
     },
     {
+      // Gemeinsames Layout — AppShell wird nur einmal gemountet (kein Flackern)
       path: '/',
-      redirect: '/dashboard',
-    },
-    {
-      path: '/dashboard',
       component: () => import('@/components/layout/AppShell.vue'),
-      meta: { title: 'Dashboard' },
       children: [
-        { path: '', component: () => import('@/views/DashboardView.vue') },
-      ],
-    },
-    {
-      path: '/einstellungen',
-      component: () => import('@/components/layout/AppShell.vue'),
-      meta: { title: 'Einstellungen' },
-      children: [
+        { path: '', redirect: '/dashboard' },
         {
-          path: 'design',
+          path: 'dashboard',
+          component: () => import('@/views/DashboardView.vue'),
+          meta: { title: 'Dashboard' },
+        },
+        {
+          path: 'einstellungen/design',
           component: () => import('@/views/DesignView.vue'),
           meta: { title: 'Design' },
         },
+        // ═══ Neue Module hier einfügen ═══
+        // Beispiel:
+        // {
+        //   path: 'kunden',
+        //   component: () => import('@/views/KundenView.vue'),
+        //   meta: { title: 'Kunden' },
+        // },
       ],
     },
-    // ═══ Neue Module hier einfügen ═══
-    // Beispiel:
-    // {
-    //   path: '/kunden',
-    //   component: () => import('@/components/layout/AppShell.vue'),
-    //   meta: { title: 'Kunden' },
-    //   children: [
-    //     { path: '', component: () => import('@/views/KundenView.vue') },
-    //   ],
-    // },
   ],
 })
 

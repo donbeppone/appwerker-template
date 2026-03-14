@@ -154,15 +154,12 @@ async function remove(item) {
 ### 3. Route hinzufügen
 
 ```javascript
-// In src/router/index.js — im routes Array einfügen:
+// In src/router/index.js — als child der AppShell-Route ('/' path) einfügen:
 {
-  path: '/kunden',
-  component: () => import('@/components/layout/AppShell.vue'),
+  path: 'kunden',
+  component: () => import('@/views/KundenView.vue'),
   meta: { title: 'Kunden' },
-  children: [
-    { path: '', component: () => import('@/views/KundenView.vue') },
-  ],
-}
+},
 ```
 
 ### 4. Navigation erweitern
