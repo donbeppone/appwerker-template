@@ -39,16 +39,20 @@ export const useDesignStore = defineStore('design', () => {
   }
 
   async function saveTokens() {
+    injectTokens(tokens.value)
     try {
       await databases.updateDocument(DB_ID, CONFIG_COLLECTION, CONFIG_DOC_ID, {
         data: JSON.stringify(tokens.value),
       })
-      injectTokens(tokens.value)
     } catch {
-      await databases.createDocument(DB_ID, CONFIG_COLLECTION, CONFIG_DOC_ID, {
-        data: JSON.stringify(tokens.value),
-      })
-      injectTokens(tokens.value)
+      try {
+        await databases.createDocument(DB_ID, CONFIG_COLLECTION, CONFIG_DOC_ID, {
+          data: JSON.stringify(tokens.value),
+        })
+      } catch (e) {
+        // Collection existiert nicht → nur localStorage-Cache verwenden
+        console.warn('[design] app_config Collection fehlt, Tokens nur lokal gespeichert:', e.message)
+      }
     }
   }
 
