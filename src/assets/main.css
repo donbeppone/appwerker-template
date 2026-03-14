@@ -1,70 +1,77 @@
 /* ═══════════════════════════════════════════════════════════
-   Appwerker Template — Design Token Defaults (--aw-*)
-   Diese Werte werden beim App-Start durch Appwrite-Tokens überschrieben.
+   Appwerker Template — Monochrome Design
+   Schwarz / Weiß / Grau — Swiss-Design-Stil
    ═══════════════════════════════════════════════════════════ */
 
-:root {
-  /* ── Farben ── */
-  --aw-primary: #6366f1;
-  --aw-primary-hover: #4f46e5;
-  --aw-on-primary: #ffffff;
-  --aw-secondary: #6b7280;
-  --aw-accent: #06b6d4;
-  --aw-error: #ef4444;
-  --aw-success: #22c55e;
-  --aw-warning: #f59e0b;
-  --aw-info: #3b82f6;
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-  --aw-bg: #f8f9fb;
+:root {
+  /* ── Farben — reines Monochrom ── */
+  --aw-primary: #000000;
+  --aw-primary-hover: #1a1a1a;
+  --aw-on-primary: #ffffff;
+  --aw-secondary: #71717a;
+  --aw-accent: #000000;
+  --aw-error: #dc2626;
+  --aw-success: #16a34a;
+  --aw-warning: #ca8a04;
+  --aw-info: #2563eb;
+
+  --aw-bg: #fafafa;
   --aw-surface: #ffffff;
   --aw-surface-raised: #ffffff;
-  --aw-border: #e5e7eb;
-  --aw-text: #111827;
-  --aw-text-secondary: #6b7280;
-  --aw-text-muted: #9ca3af;
+  --aw-border: #e4e4e7;
+  --aw-text: #09090b;
+  --aw-text-secondary: #71717a;
+  --aw-text-muted: #a1a1aa;
 
-  /* ── Sidebar ── */
-  --aw-sidebar-bg: #111827;
-  --aw-sidebar-text: #d1d5db;
-  --aw-sidebar-active-bg: rgba(99, 102, 241, 0.12);
-  --aw-sidebar-active-text: #818cf8;
+  /* ── Sidebar — dunkles Anthrazit ── */
+  --aw-sidebar-bg: #09090b;
+  --aw-sidebar-text: #a1a1aa;
+  --aw-sidebar-active-bg: rgba(255, 255, 255, 0.08);
+  --aw-sidebar-active-text: #ffffff;
   --aw-sidebar-width: 220px;
 
-  /* ── Abstände / Radien ── */
-  --aw-radius-sm: 6px;
-  --aw-radius: 10px;
-  --aw-radius-lg: 14px;
-  --aw-radius-xl: 20px;
+  /* ── Radien — scharf, reduziert ── */
+  --aw-radius-sm: 4px;
+  --aw-radius: 6px;
+  --aw-radius-lg: 8px;
+  --aw-radius-xl: 12px;
 
-  /* ── Schatten ── */
-  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --aw-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  --aw-shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.10);
+  /* ── Schatten — dezent ── */
+  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --aw-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --aw-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
 
-  /* ── Typografie ── */
-  --aw-font-family: 'DM Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  --aw-font-family-heading: 'DM Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  /* ── Typografie — Instrument Sans ── */
+  --aw-font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --aw-font-family-heading: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --aw-font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 }
 
 /* ── Dark Mode ── */
 html.dark {
-  --aw-bg: #0f1117;
-  --aw-surface: #1a1d27;
-  --aw-surface-raised: #22252f;
-  --aw-border: #2d3140;
-  --aw-text: #f3f4f6;
-  --aw-text-secondary: #9ca3af;
-  --aw-text-muted: #6b7280;
+  --aw-primary: #ffffff;
+  --aw-primary-hover: #e4e4e7;
+  --aw-on-primary: #09090b;
 
-  --aw-sidebar-bg: #0a0c12;
-  --aw-sidebar-text: #9ca3af;
+  --aw-bg: #09090b;
+  --aw-surface: #18181b;
+  --aw-surface-raised: #27272a;
+  --aw-border: #3f3f46;
+  --aw-text: #fafafa;
+  --aw-text-secondary: #a1a1aa;
+  --aw-text-muted: #71717a;
 
-  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --aw-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  --aw-shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.4);
+  --aw-sidebar-bg: #000000;
+  --aw-sidebar-text: #71717a;
+
+  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --aw-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --aw-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
-/* ── Basis-Styles ── */
+/* ── Basis ── */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -76,21 +83,35 @@ body {
   color: var(--aw-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
-/* ── Vuetify Dialog Overrides ── */
+/* ── Vuetify Overrides — schärfer, präziser ── */
 .v-overlay__content:has(> .v-card) {
   border-radius: var(--aw-radius-lg) !important;
 }
 
 .v-dialog .v-card {
-  border-top: 3px solid var(--aw-primary) !important;
+  border-top: 2px solid var(--aw-primary) !important;
 }
 
-/* ── Scrollbar ── */
+.v-btn {
+  letter-spacing: -0.01em !important;
+}
+
+.v-card {
+  border: 1px solid var(--aw-border) !important;
+  box-shadow: var(--aw-shadow) !important;
+}
+
+.v-data-table {
+  font-size: 13px !important;
+}
+
+/* ── Scrollbar — unsichtbar, erscheint bei Hover ── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -98,10 +119,24 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--aw-border);
+  background: transparent;
   border-radius: 3px;
+  transition: background 0.2s;
 }
 
+*:hover > ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--aw-text-muted);
+  background: var(--aw-border);
+}
+
+/* ── Fokus-Stil — schwarz, klar ── */
+:focus-visible {
+  outline: 2px solid var(--aw-primary);
+  outline-offset: 2px;
+}
+
+/* ── Monospace für Daten ── */
+.mono {
+  font-family: var(--aw-font-mono);
+  font-size: 0.875em;
 }

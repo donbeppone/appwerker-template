@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/auth.js'
 const router = useRouter()
 const auth = useAuthStore()
 
-const mode = ref('login') // 'login' | 'register'
+const mode = ref('login')
 const email = ref('')
 const password = ref('')
 const name = ref('')
@@ -35,68 +35,78 @@ async function handleSubmit() {
 
 <template>
   <div class="aw-login-page">
-    <v-card class="aw-login-card" max-width="400" width="100%">
-      <v-card-text class="pa-8">
-        <div class="text-center mb-6">
-          <v-icon size="48" color="primary" class="mb-2">mdi-apps</v-icon>
-          <h1 class="text-h5 font-weight-bold">{{ appName }}</h1>
-          <p class="text-body-2 text-medium-emphasis mt-1">
+    <div class="aw-login-wrapper">
+      <div class="aw-login-brand">
+        <div class="aw-logo-mark" />
+        <h1 class="aw-app-name">{{ appName }}</h1>
+      </div>
+
+      <v-card class="aw-login-card" max-width="380" width="100%">
+        <v-card-text class="pa-7">
+          <h2 class="text-body-1 font-weight-bold mb-1">
             {{ mode === 'login' ? 'Anmelden' : 'Konto erstellen' }}
+          </h2>
+          <p class="text-body-2 text-medium-emphasis mb-5">
+            {{ mode === 'login' ? 'Melde dich mit deinem Konto an.' : 'Erstelle ein neues Konto.' }}
           </p>
-        </div>
 
-        <v-alert v-if="error" type="error" density="compact" class="mb-4">
-          {{ error }}
-        </v-alert>
+          <v-alert v-if="error" type="error" density="compact" class="mb-4" variant="tonal">
+            {{ error }}
+          </v-alert>
 
-        <v-form @submit.prevent="handleSubmit">
-          <v-text-field
-            v-if="mode === 'register'"
-            v-model="name"
-            label="Name"
-            prepend-inner-icon="mdi-account"
-            class="mb-2"
-          />
+          <v-form @submit.prevent="handleSubmit">
+            <v-text-field
+              v-if="mode === 'register'"
+              v-model="name"
+              label="Name"
+              class="mb-3"
+              hide-details
+            />
 
-          <v-text-field
-            v-model="email"
-            label="E-Mail"
-            type="email"
-            prepend-inner-icon="mdi-email"
-            class="mb-2"
-          />
+            <v-text-field
+              v-model="email"
+              label="E-Mail"
+              type="email"
+              class="mb-3"
+              hide-details
+            />
 
-          <v-text-field
-            v-model="password"
-            label="Passwort"
-            type="password"
-            prepend-inner-icon="mdi-lock"
-            class="mb-4"
-          />
+            <v-text-field
+              v-model="password"
+              label="Passwort"
+              type="password"
+              class="mb-5"
+              hide-details
+            />
 
-          <v-btn
-            type="submit"
-            color="primary"
-            variant="flat"
-            block
-            size="large"
-            :loading="loading"
-          >
-            {{ mode === 'login' ? 'Anmelden' : 'Registrieren' }}
-          </v-btn>
-        </v-form>
+            <v-btn
+              type="submit"
+              color="primary"
+              variant="flat"
+              block
+              size="large"
+              rounded="lg"
+              :loading="loading"
+            >
+              {{ mode === 'login' ? 'Anmelden' : 'Registrieren' }}
+            </v-btn>
+          </v-form>
 
-        <div class="text-center mt-4">
-          <v-btn
-            variant="text"
-            size="small"
-            @click="mode = mode === 'login' ? 'register' : 'login'"
-          >
-            {{ mode === 'login' ? 'Konto erstellen' : 'Bereits registriert? Anmelden' }}
-          </v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
+          <v-divider class="my-5" />
+
+          <div class="text-center">
+            <v-btn
+              variant="text"
+              size="small"
+              color="secondary"
+              @click="mode = mode === 'login' ? 'register' : 'login'"
+            >
+              {{ mode === 'login' ? 'Konto erstellen' : 'Bereits registriert? Anmelden' }}
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+    </div>
   </div>
 </template>
 
@@ -110,9 +120,35 @@ async function handleSubmit() {
   padding: 24px;
 }
 
+.aw-login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.aw-login-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.aw-logo-mark {
+  width: 28px;
+  height: 28px;
+  background: var(--aw-text);
+  border-radius: 6px;
+}
+
+.aw-app-name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--aw-text);
+}
+
 .aw-login-card {
-  border-radius: var(--aw-radius-lg) !important;
-  box-shadow: var(--aw-shadow-lg) !important;
-  border-top: 3px solid var(--aw-primary);
+  border: 1px solid var(--aw-border) !important;
+  box-shadow: var(--aw-shadow) !important;
 }
 </style>
