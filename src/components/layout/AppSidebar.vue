@@ -43,7 +43,7 @@ async function handleLogout() {
   >
     <!-- Logo / App Name -->
     <div class="aw-sidebar-header" @click="router.push('/dashboard')">
-      <v-icon size="28" color="white" class="mr-2">mdi-apps</v-icon>
+      <v-icon size="28" :style="{ color: 'var(--aw-sidebar-active-text)' }" class="mr-2">mdi-apps</v-icon>
       <span class="aw-sidebar-title">{{ appName }}</span>
     </div>
 

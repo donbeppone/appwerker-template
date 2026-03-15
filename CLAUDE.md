@@ -112,8 +112,10 @@ Alle Abstände, Farben, Radien, Schatten und Typografie MÜSSEN über `var(--aw-
 | `--aw-font-family-heading` | Überschriften-Schrift |
 | `--aw-font-mono` | Monospace-Schrift |
 
-### Sidebar
+### Sidebar (automatisch abgeleitet aus Background)
 `--aw-sidebar-bg`, `--aw-sidebar-text`, `--aw-sidebar-active-bg`, `--aw-sidebar-active-text`, `--aw-sidebar-width`
+
+Die Sidebar-Farben werden **automatisch** aus der Background-Farbe berechnet (kontrastreich). Es gibt kein editierbares Sidebar-Token — die Sidebar ist immer dunkel bei hellem Background und umgekehrt.
 
 ## Neues CRUD-Modul hinzufügen
 

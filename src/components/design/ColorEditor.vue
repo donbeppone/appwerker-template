@@ -10,7 +10,6 @@ const mainColors = [
   { key: 'secondary', label: 'Sekundär', desc: 'Badges, Tags, dezente Elemente' },
   { key: 'accent', label: 'Akzent', desc: 'Hervorhebungen, Hover-Effekte' },
   { key: 'background', label: 'Hintergrund', desc: 'Seiten-Hintergrund' },
-  { key: 'sidebarBg', label: 'Sidebar', desc: 'Seitenleisten-Hintergrund' },
 ]
 
 const statusColors = [

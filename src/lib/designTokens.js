@@ -87,7 +87,6 @@ export const coreTokenDefaults = {
   baseFontSize: 16,   // Body-Schriftgröße in px
   typeScaleRatio: 1.25, // Skalierung zwischen Überschriften-Ebenen (Major Third)
   typoOverrides: null,  // JSON-String für individuelle Überschreibungen { h1: { fontSize, ... }, ... }
-  sidebarBg: '#09090b',
 }
 
 // ─── Typografische Skala ─────────────────────────────────
@@ -169,6 +168,12 @@ export function deriveTokens(core) {
   const darkWarning = lighten(c.warning, 0.2)
   const darkInfo = lighten(c.info, 0.15)
 
+  // Sidebar-BG aus Background ableiten — immer kontrastreich
+  const sidebarBg = isDarkBg
+    ? lighten(c.background, 0.08)
+    : darken(c.background, 0.85)
+  const isSidebarDark = luminance(sidebarBg) < 0.2
+
   return {
     // Kern (gespeichert)
     core: c,
@@ -229,10 +234,16 @@ export function deriveTokens(core) {
 
     // ── Layout ──
     sidebar: {
-      bg: c.sidebarBg,
-      text: lighten(c.sidebarBg, 0.5),
-      'active-bg': 'rgba(255, 255, 255, 0.08)',
-      'active-text': '#ffffff',
+      bg: sidebarBg,
+      text: isSidebarDark
+        ? lighten(sidebarBg, 0.5)
+        : darken(sidebarBg, 0.4),
+      'active-bg': isSidebarDark
+        ? 'rgba(255, 255, 255, 0.08)'
+        : 'rgba(0, 0, 0, 0.06)',
+      'active-text': isSidebarDark
+        ? '#ffffff'
+        : '#000000',
       width: '220px',
     },
 
@@ -353,7 +364,9 @@ function injectDarkModeStyles(derived) {
     .map(([key, value]) => `  --aw-${key}: ${value};`)
     .join('\n')
 
-  const sidebarVars = `  --aw-sidebar-bg: ${darken(derived.sidebar.bg, 0.3)};`
+  const darkSidebarBg = lighten(derived.dark.background, 0.08)
+  const sidebarVars = `  --aw-sidebar-bg: ${darkSidebarBg};
+  --aw-sidebar-text: ${lighten(darkSidebarBg, 0.5)};`
 
   const shadowVars = [
     `  --aw-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);`,
