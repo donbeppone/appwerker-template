@@ -1,12 +1,12 @@
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth.js'
+import { getModulePermissions } from '@/lib/modules.js'
 
 // ── Module definitions ──────────────────────────────────────────────────────
-// Claude füllt neue Module hier ein, wenn CRUD-Module erstellt werden.
+// System-Module + automatisch erkannte Module aus src/modules/
 export const MODULES = {
   dashboard: { label: 'Dashboard', actions: ['read'] },
-  // Beispiel:
-  // kunden: { label: 'Kunden', actions: ['read', 'write'] },
+  ...getModulePermissions(),
 }
 
 export const ACTION_LABELS = {

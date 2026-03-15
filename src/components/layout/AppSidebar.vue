@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
 import { useAppShell } from '@/composables/useAppShell.js'
 import { usePermissions } from '@/composables/usePermissions.js'
+import { getNavItems } from '@/lib/modules.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,11 +14,10 @@ const { canAccess } = usePermissions()
 
 const appName = import.meta.env.VITE_APP_NAME || 'App'
 
-// Navigation — wird von Claude erweitert wenn neue Module hinzugefügt werden
+// Navigation — Module werden automatisch aus src/modules/ erkannt
 const allNavItems = [
   { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/dashboard' },
-  // Neue Module hier einfügen:
-  // { title: 'Kunden', icon: 'mdi-account-group', to: '/kunden', module: 'kunden' },
+  ...getNavItems(),
 ]
 
 const navItems = computed(() =>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
 import { checkAccess } from '@/composables/usePermissions.js'
+import { getModuleRoutes, getPublicRoutes } from '@/lib/modules.js'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -41,9 +42,10 @@ const router = createRouter({
           component: () => import('@/views/UsersView.vue'),
           meta: { title: 'Benutzer' },
         },
-        // ═══ Neue Module hier einfügen ═══
+        ...getModuleRoutes(),
       ],
     },
+    ...getPublicRoutes(),
   ],
 })
 

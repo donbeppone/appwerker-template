@@ -117,12 +117,61 @@ Alle Abstände, Farben, Radien, Schatten und Typografie MÜSSEN über `var(--aw-
 
 Die Sidebar-Farben werden **automatisch** aus der Background-Farbe berechnet (kontrastreich, kein UI-Picker). Die CSS-Variablen existieren und können bei Bedarf in scoped CSS überschrieben werden.
 
-## Neues CRUD-Modul hinzufügen
+## Neues Modul hinzufügen (Auto-Discovery)
 
-### 1. Store erstellen
+Module werden automatisch erkannt — **KEINE bestehenden Dateien ändern!**
+Alle Dateien eines Moduls liegen in `src/modules/{name}/`.
+
+### Modul-Struktur
+
+```
+src/modules/kunden/
+├── index.js              ← Modul-Definition (Route, Nav, Permissions)
+├── KundenView.vue        ← Haupt-View
+├── store.js              ← Store (optional)
+└── components/           ← Modul-spezifische Komponenten (optional)
+```
+
+### 1. Modul-Definition (`src/modules/kunden/index.js`)
 
 ```javascript
-// src/stores/kunden.js
+export default {
+  route: {
+    path: 'kunden',
+    component: () => import('./KundenView.vue'),
+    meta: { title: 'Kunden', module: 'kunden' },
+  },
+  nav: {
+    title: 'Kunden',
+    icon: 'mdi-account-group',
+    to: '/kunden',
+    module: 'kunden',
+  },
+  permissions: {
+    kunden: { label: 'Kunden', actions: ['read', 'write'] },
+  },
+}
+```
+
+Für öffentliche Routen (ohne Login):
+```javascript
+export default {
+  route: { ... },
+  publicRoutes: [
+    {
+      path: '/umfrage/:id',
+      component: () => import('./UmfrageTeilnahmeView.vue'),
+      meta: { public: true },
+    },
+  ],
+  nav: { ... },
+}
+```
+
+### 2. Store (`src/modules/kunden/store.js`)
+
+Für Standard-CRUD:
+```javascript
 import { createCrudStore } from '@/lib/crudFactory.js'
 
 export const useKundenStore = createCrudStore('kunden', 'kunden', {
@@ -131,180 +180,14 @@ export const useKundenStore = createCrudStore('kunden', 'kunden', {
 ```
 
 `createCrudStore` liefert: `items` (ref), `loading` (ref), `fetchAll()`, `create(data)`, `update(id, data)`, `remove(id)`.
-IMMER `createCrudStore` verwenden — NICHT manuell mit `defineStore` + Options API bauen.
 
-### 2. View erstellen
+Für erweiterte Logik: eigener Store mit `defineStore` + Composition API.
+Imports: `import { databases, DB_ID } from '@/lib/appwrite.js'` und `import { Query, ID } from 'appwrite'`
 
-```vue
-<!-- src/views/KundenView.vue -->
-<script setup>
-import { onMounted, ref } from 'vue'
-import { useKundenStore } from '@/stores/kunden.js'
-import { useToast } from '@/composables/useToast.js'
-import { useConfirm } from '@/composables/useConfirm.js'
-import PageHeader from '@/components/shared/PageHeader.vue'
-import EmptyState from '@/components/shared/EmptyState.vue'
-import LoadingState from '@/components/shared/LoadingState.vue'
+### 3. View (`src/modules/kunden/KundenView.vue`)
 
-const store = useKundenStore()
-const toast = useToast()
-const confirm = useConfirm()
-const dialog = ref(false)
-const form = ref({ name: '', email: '' })
-const editId = ref(null)
-
-onMounted(() => store.fetchAll())
-
-function openCreate() {
-  form.value = { name: '', email: '' }
-  editId.value = null
-  dialog.value = true
-}
-
-function openEdit(item) {
-  form.value = { name: item.name, email: item.email }
-  editId.value = item.$id
-  dialog.value = true
-}
-
-async function save() {
-  if (editId.value) {
-    await store.update(editId.value, form.value)
-    toast.add({ severity: 'success', summary: 'Gespeichert' })
-  } else {
-    await store.create(form.value)
-    toast.add({ severity: 'success', summary: 'Erstellt' })
-  }
-  dialog.value = false
-}
-
-async function remove(item) {
-  const ok = await confirm.require({
-    header: 'Löschen',
-    message: `"${item.name}" wirklich löschen?`,
-    acceptProps: { label: 'Löschen', severity: 'danger' },
-  })
-  if (ok) {
-    await store.remove(item.$id)
-    toast.add({ severity: 'success', summary: 'Gelöscht' })
-  }
-}
-</script>
-
-<template>
-  <PageHeader title="Kunden">
-    <template #actions>
-      <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreate">Neu</v-btn>
-    </template>
-  </PageHeader>
-
-  <div class="aw-page-content">
-    <LoadingState v-if="store.loading" />
-    <EmptyState
-      v-else-if="!store.items.length"
-      title="Keine Kunden"
-      action-label="Ersten Kunden anlegen"
-      @action="openCreate"
-    />
-    <v-data-table
-      v-else
-      :items="store.items"
-      :headers="[
-        { title: 'Name', key: 'name' },
-        { title: 'E-Mail', key: 'email' },
-        { title: '', key: 'actions', sortable: false, align: 'end' },
-      ]"
-    >
-      <template #item.actions="{ item }">
-        <v-btn icon="mdi-pencil" size="small" variant="text" @click="openEdit(item)" />
-        <v-btn icon="mdi-delete" size="small" variant="text" color="error" @click="remove(item)" />
-      </template>
-    </v-data-table>
-
-    <v-dialog v-model="dialog" max-width="500">
-      <v-card>
-        <v-card-title>{{ editId ? 'Bearbeiten' : 'Neu' }}</v-card-title>
-        <v-card-text>
-          <v-text-field v-model="form.name" label="Name" class="mb-2" />
-          <v-text-field v-model="form.email" label="E-Mail" />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn @click="dialog = false">Abbrechen</v-btn>
-          <v-btn color="primary" variant="flat" @click="save">Speichern</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
-</template>
-```
-
-### 3. Route hinzufügen
-
-```javascript
-// In src/router/index.js — als child der AppShell-Route ('/' path) einfügen:
-{
-  path: 'kunden',
-  component: () => import('@/views/KundenView.vue'),
-  meta: { title: 'Kunden' },
-},
-```
-
-## Router-Grundstruktur (PFLICHT)
-
-```javascript
-routes: [
-  {
-    path: '/login',
-    component: () => import('@/views/LoginView.vue'),
-    meta: { public: true, title: 'Anmelden' },
-  },
-  {
-    path: '/',
-    component: () => import('@/components/layout/AppShell.vue'),
-    redirect: '/dashboard',   // WICHTIG: Redirect zur Dashboard-Route
-    children: [
-      {
-        path: 'dashboard',    // WICHTIG: NICHT path: '' — immer expliziten Pfad verwenden
-        component: () => import('@/views/DashboardView.vue'),
-        meta: { title: 'Dashboard' },
-      },
-      // ... weitere Routen
-    ],
-  },
-]
-```
-
-**WICHTIG:**
-- Dashboard MUSS `path: 'dashboard'` haben (nicht `path: ''`)
-- Die AppShell-Route MUSS `redirect: '/dashboard'` haben
-- Alle Redirects und `router.push()` Aufrufe MÜSSEN mit dem tatsächlichen Route-Path übereinstimmen
-- LoginView redirected nach `/dashboard` → also muss die Route `/dashboard` existieren
-
-### 4. Navigation erweitern
-
-```javascript
-// In src/components/layout/AppSidebar.vue — allNavItems Array erweitern:
-{ title: 'Kunden', icon: 'mdi-account-group', to: '/kunden', module: 'kunden' },
-```
-
-### 5. Berechtigungen registrieren
-
-```javascript
-// In src/composables/usePermissions.js — MODULES erweitern:
-kunden: { label: 'Kunden', actions: ['read', 'write'] },
-```
-
-### 6. Route mit Permission-Guard
-
-```javascript
-// In src/router/index.js — meta.module setzt Permission-Prüfung:
-{
-  path: 'kunden',
-  component: () => import('@/views/KundenView.vue'),
-  meta: { title: 'Kunden', module: 'kunden' },
-},
-```
+Muss dem Seitenstruktur-Pattern folgen (PageHeader + aw-page-content).
+Store-Import relativ: `import { useKundenStore } from './store.js'`
 
 ## Berechtigungssystem
 
