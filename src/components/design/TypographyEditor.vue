@@ -151,6 +151,23 @@ onMounted(() => {
             Überschrift Beispiel
           </div>
         </div>
+        <div class="te-font-card">
+          <div class="te-font-card-head">
+            <span class="te-font-card-label">Schriftgröße</span>
+            <span class="te-font-size-value">{{ model.baseFontSize || 16 }}px</span>
+          </div>
+          <div class="te-btn-group te-btn-group--wide">
+            <button
+              v-for="s in [12, 13, 14, 15, 16, 17, 18, 19, 20]"
+              :key="s"
+              :class="{ active: (model.baseFontSize || 16) === s }"
+              @click="model.baseFontSize = s"
+            >{{ s }}</button>
+          </div>
+          <div class="te-font-sample" :style="{ fontFamily: `'${model.fontFamily}', sans-serif`, fontSize: `${model.baseFontSize || 16}px` }">
+            Beispieltext in {{ model.baseFontSize || 16 }}px
+          </div>
+        </div>
       </div>
     </div>
 
@@ -311,12 +328,31 @@ onMounted(() => {
 /* ── Font Cards ── */
 .te-font-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
+  .te-font-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
   .te-font-grid { grid-template-columns: 1fr; }
+}
+
+.te-font-size-value {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--aw-font-mono);
+  color: var(--aw-primary);
+}
+
+.te-btn-group--wide {
+  width: 100%;
+}
+
+.te-btn-group--wide button {
+  flex: 1;
 }
 
 .te-font-card {
