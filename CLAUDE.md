@@ -334,14 +334,14 @@ kunden: { label: 'Kunden', actions: ['read', 'write'] },
 - Datenbank-ID: immer `'main'` (DB_ID aus appwrite.js)
 - Auth: `useAuthStore()` → `user`, `loginWithOTP()`, `verifyOTP()`, `login()`, `logout()`
 - Berechtigungen: `usePermissions()` → `canAccess()`, `canRead()`, `canWrite()`
-- Datenbank: `import { databases, DB_ID } from '@/lib/appwrite'`
+- Datenbank: `import { databases, DB_ID } from '@/lib/appwrite'` — für `Query` und `ID`: `import { Query, ID } from 'appwrite'` (npm-Paket, NICHT aus @/lib/appwrite)
 - UI: **Vuetify 4** Komponenten (v-card, v-btn, v-data-table, v-dialog, ...)
 - Icons: Material Design Icons (mdi-*)
 - Styling: **IMMER** CSS Custom Properties `var(--aw-*)` für alle Abstände, Farben, Radien, Schatten — **kein Tailwind**, **keine hardcodierten Werte**
 - Seitenstruktur: **IMMER** `<PageHeader>` + `<div class="aw-page-content">` — kein eigenes HTML für Seitentitel oder Padding
 - Benachrichtigungen: `useToast().add({ severity, summary, detail })`
 - Bestätigung: `useConfirm().require({ header, message, acceptProps })`
-- Stores: `createCrudStore()` aus `@/lib/crudFactory.js`
+- Stores: `createCrudStore()` aus `@/lib/crudFactory.js` für Standard-CRUD. Bei erweiterter Logik: eigener Store mit `defineStore` + Composition API (NICHT Options API, NICHT createCrudStore wrappen)
 
 ## Appwrite Datenbank-Tools (Bot)
 
