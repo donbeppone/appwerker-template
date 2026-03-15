@@ -26,7 +26,7 @@ src/
 │   └── useAppShell.js      — Drawer-State, Layout-Umschaltung
 ├── components/
 │   ├── layout/             — AppShell, AppSidebar, AppTopbar, Layouts
-│   ├── shared/             — Toast, Confirm, EmptyState, LoadingState, PageHeader
+│   ├── shared/             — ToastContainer, ConfirmDialog, EmptyState, LoadingState, PageHeader
 │   └── design/             — Design-Editor-Komponenten
 ├── views/
 │   ├── LoginView.vue       — OTP-Login (E-Mail → Code) + Admin-Passwort-Fallback
@@ -115,7 +115,7 @@ Alle Abstände, Farben, Radien, Schatten und Typografie MÜSSEN über `var(--aw-
 ### Sidebar (automatisch abgeleitet aus Background)
 `--aw-sidebar-bg`, `--aw-sidebar-text`, `--aw-sidebar-active-bg`, `--aw-sidebar-active-text`, `--aw-sidebar-width`
 
-Die Sidebar-Farben werden **automatisch** aus der Background-Farbe berechnet (kontrastreich). Es gibt kein editierbares Sidebar-Token — die Sidebar ist immer dunkel bei hellem Background und umgekehrt.
+Die Sidebar-Farben werden **automatisch** aus der Background-Farbe berechnet (kontrastreich, kein UI-Picker). Die CSS-Variablen existieren und können bei Bedarf in scoped CSS überschrieben werden.
 
 ## Neues CRUD-Modul hinzufügen
 
@@ -129,6 +129,9 @@ export const useKundenStore = createCrudStore('kunden', 'kunden', {
   defaultSort: { field: 'name', direction: 'asc' },
 })
 ```
+
+`createCrudStore` liefert: `items` (ref), `loading` (ref), `fetchAll()`, `create(data)`, `update(id, data)`, `remove(id)`.
+IMMER `createCrudStore` verwenden — NICHT manuell mit `defineStore` + Options API bauen.
 
 ### 2. View erstellen
 
@@ -339,6 +342,13 @@ kunden: { label: 'Kunden', actions: ['read', 'write'] },
 - Benachrichtigungen: `useToast().add({ severity, summary, detail })`
 - Bestätigung: `useConfirm().require({ header, message, acceptProps })`
 - Stores: `createCrudStore()` aus `@/lib/crudFactory.js`
+
+## Appwrite Datenbank-Tools (Bot)
+
+Wenn der Bot (claude-service) neue Module erstellt, nutzt er diese Tools:
+
+- **`manage_collection`** — Collection mit Attributen in der Appwrite-Datenbank anlegen. IMMER zuerst die Collection anlegen, BEVOR Code geschrieben wird.
+- **`create_documents`** — Dokumente direkt in eine Collection einfügen (Testdaten, Seed-Daten). Braucht KEINEN Branch oder Deploy.
 
 ## Verfügbare Shared-Komponenten
 
