@@ -51,16 +51,40 @@ async function handleLogout() {
 
     <!-- Haupt-Navigation -->
     <v-list density="compact" nav class="px-2">
-      <v-list-item
-        v-for="item in navItems"
-        :key="item.to"
-        :to="item.to"
-        :prepend-icon="item.icon"
-        :title="item.title"
-        rounded="lg"
-        class="aw-nav-item"
-        :active="route.path.startsWith(item.to)"
-      />
+      <template v-for="item in navItems" :key="item.to">
+        <!-- Einfaches Nav-Item -->
+        <v-list-item
+          v-if="!item.children"
+          :to="item.to"
+          :prepend-icon="item.icon"
+          :title="item.title"
+          rounded="lg"
+          class="aw-nav-item"
+          :active="route.path === item.to"
+        />
+        <!-- Nav-Gruppe mit Sub-Items -->
+        <v-list-group v-else :value="item.to" class="aw-nav-group">
+          <template #activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              :prepend-icon="item.icon"
+              :title="item.title"
+              rounded="lg"
+              class="aw-nav-item"
+            />
+          </template>
+          <v-list-item
+            v-for="child in item.children"
+            :key="child.to"
+            :to="child.to"
+            :prepend-icon="child.icon"
+            :title="child.title"
+            rounded="lg"
+            class="aw-nav-item aw-nav-child"
+            :active="route.path === child.to"
+          />
+        </v-list-group>
+      </template>
     </v-list>
 
     <template #append>
@@ -139,6 +163,14 @@ async function handleLogout() {
 .aw-nav-item.v-list-item--active {
   background: var(--aw-sidebar-active-bg) !important;
   color: var(--aw-sidebar-active-text) !important;
+}
+
+.aw-nav-group :deep(.v-list-group__items) {
+  padding-left: var(--aw-space-sm);
+}
+
+.aw-nav-child {
+  font-size: var(--aw-typo-small-size);
 }
 
 .aw-sidebar-footer {

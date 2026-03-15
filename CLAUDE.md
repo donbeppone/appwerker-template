@@ -153,6 +153,36 @@ export default {
 }
 ```
 
+Für komplexe Module mit mehreren Views (z.B. Buchhaltung):
+```javascript
+export default {
+  route: {
+    path: 'buchhaltung',
+    component: () => import('./BuchhaltungView.vue'),
+    meta: { title: 'Buchhaltung', module: 'buchhaltung' },
+    children: [
+      { path: 'konten', component: () => import('./KontenView.vue'), meta: { title: 'Kontenplan' } },
+      { path: 'buchungen', component: () => import('./BuchungenView.vue'), meta: { title: 'Buchungen' } },
+    ],
+  },
+  nav: {
+    title: 'Buchhaltung',
+    icon: 'mdi-calculator',
+    to: '/buchhaltung',
+    module: 'buchhaltung',
+    children: [
+      { title: 'Übersicht', icon: 'mdi-view-dashboard', to: '/buchhaltung' },
+      { title: 'Kontenplan', icon: 'mdi-format-list-numbered', to: '/buchhaltung/konten' },
+      { title: 'Buchungen', icon: 'mdi-book-open', to: '/buchhaltung/buchungen' },
+    ],
+  },
+  permissions: {
+    buchhaltung: { label: 'Buchhaltung', actions: ['read', 'write'] },
+  },
+}
+```
+Child-Routes werden automatisch als flache Routen registriert. Nav-Children werden als aufklappbare Gruppe in der Sidebar angezeigt.
+
 Für öffentliche Routen (ohne Login):
 ```javascript
 export default {
