@@ -46,7 +46,7 @@ onMounted(async () => {
     </template>
   </PageHeader>
 
-  <v-container fluid class="px-6">
+  <div class="aw-page-content">
     <v-tabs v-model="tab" class="mb-6">
       <v-tab value="colors">Farben</v-tab>
       <v-tab value="typography">Typografie</v-tab>
@@ -72,5 +72,5 @@ onMounted(async () => {
         <ComponentPreview />
       </v-tabs-window-item>
     </v-tabs-window>
-  </v-container>
+  </div>
 </template>

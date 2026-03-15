@@ -196,7 +196,7 @@ const tab = ref('users')
       </template>
     </PageHeader>
 
-    <div class="uv-content">
+    <div class="aw-page-content">
       <v-tabs v-model="tab" density="compact" class="mb-4">
         <v-tab value="users">Benutzer</v-tab>
         <v-tab value="rollen">Rollen</v-tab>
@@ -413,10 +413,6 @@ const tab = ref('users')
 </template>
 
 <style scoped>
-.uv-content {
-  padding: 0 var(--aw-space-lg) var(--aw-space-lg);
-}
-
 .uv-perm-module {
   display: flex;
   align-items: center;

@@ -12,7 +12,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'App'
     :subtitle="`Willkommen bei ${appName}`"
   />
 
-  <v-container fluid class="px-6">
+  <div class="aw-page-content">
     <v-row>
       <v-col cols="12" md="4">
         <v-card class="pa-6" >
@@ -39,5 +39,5 @@ const appName = import.meta.env.VITE_APP_NAME || 'App'
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>

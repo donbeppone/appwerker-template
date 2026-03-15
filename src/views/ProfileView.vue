@@ -85,7 +85,7 @@ async function changePassword() {
   <div>
     <PageHeader title="Profil" subtitle="Eigene Daten und Passwort verwalten" />
 
-    <div class="pv-content">
+    <div class="aw-page-content">
       <!-- Name -->
       <v-card variant="outlined" class="mb-4">
         <v-card-text>
@@ -211,10 +211,6 @@ async function changePassword() {
 </template>
 
 <style scoped>
-.pv-content {
-  padding: 0 var(--aw-space-lg) var(--aw-space-lg);
-}
-
 .pv-row {
   display: flex;
   align-items: center;
