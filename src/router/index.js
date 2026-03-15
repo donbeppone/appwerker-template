@@ -41,13 +41,12 @@ const router = createRouter({
           component: () => import('@/views/UsersView.vue'),
           meta: { title: 'Benutzer' },
         },
+        {
+          path: 'kalender',
+          component: () => import('@/views/KalenderView.vue'),
+          meta: { title: 'Kalender' },
+        },
         // ═══ Neue Module hier einfügen ═══
-        // Beispiel:
-        // {
-        //   path: 'kunden',
-        //   component: () => import('@/views/KundenView.vue'),
-        //   meta: { title: 'Kunden', module: 'kunden' },
-        // },
       ],
     },
   ],

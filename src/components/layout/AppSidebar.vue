@@ -16,6 +16,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'App'
 // Navigation — wird von Claude erweitert wenn neue Module hinzugefügt werden
 const allNavItems = [
   { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/dashboard' },
+  { title: 'Kalender', icon: 'mdi-calendar', to: '/kalender' },
   // Neue Module hier einfügen:
   // { title: 'Kunden', icon: 'mdi-account-group', to: '/kunden', module: 'kunden' },
 ]
