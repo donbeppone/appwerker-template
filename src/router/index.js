@@ -83,4 +83,11 @@ router.beforeEach(async (to) => {
   return true
 })
 
+// Aktuelle Route an Parent-Fenster (Appwerker Admin) melden
+router.afterEach((to) => {
+  if (window.parent !== window) {
+    window.parent.postMessage({ type: 'aw-route', path: to.path, title: to.meta?.title || '' }, '*')
+  }
+})
+
 export default router
