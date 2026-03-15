@@ -7,6 +7,7 @@ import ColorEditor from '@/components/design/ColorEditor.vue'
 import TypographyEditor from '@/components/design/TypographyEditor.vue'
 import SpacingEditor from '@/components/design/SpacingEditor.vue'
 import LayoutPicker from '@/components/design/LayoutPicker.vue'
+import ComponentPreview from '@/components/design/ComponentPreview.vue'
 
 const design = useDesignStore()
 const tab = ref('colors')
@@ -51,6 +52,7 @@ onMounted(async () => {
       <v-tab value="typography">Typografie</v-tab>
       <v-tab value="spacing">Abstände & Radien</v-tab>
       <v-tab value="layout">Layout</v-tab>
+      <v-tab value="preview">Vorschau</v-tab>
     </v-tabs>
 
     <v-tabs-window v-model="tab">
@@ -65,6 +67,9 @@ onMounted(async () => {
       </v-tabs-window-item>
       <v-tabs-window-item value="layout">
         <LayoutPicker v-model="design.tokens.layout" />
+      </v-tabs-window-item>
+      <v-tabs-window-item value="preview">
+        <ComponentPreview />
       </v-tabs-window-item>
     </v-tabs-window>
   </v-container>
