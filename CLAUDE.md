@@ -247,6 +247,37 @@ async function remove(item) {
 },
 ```
 
+## Router-Grundstruktur (PFLICHT)
+
+```javascript
+routes: [
+  {
+    path: '/login',
+    component: () => import('@/views/LoginView.vue'),
+    meta: { public: true, title: 'Anmelden' },
+  },
+  {
+    path: '/',
+    component: () => import('@/components/layout/AppShell.vue'),
+    redirect: '/dashboard',   // WICHTIG: Redirect zur Dashboard-Route
+    children: [
+      {
+        path: 'dashboard',    // WICHTIG: NICHT path: '' — immer expliziten Pfad verwenden
+        component: () => import('@/views/DashboardView.vue'),
+        meta: { title: 'Dashboard' },
+      },
+      // ... weitere Routen
+    ],
+  },
+]
+```
+
+**WICHTIG:**
+- Dashboard MUSS `path: 'dashboard'` haben (nicht `path: ''`)
+- Die AppShell-Route MUSS `redirect: '/dashboard'` haben
+- Alle Redirects und `router.push()` Aufrufe MÜSSEN mit dem tatsächlichen Route-Path übereinstimmen
+- LoginView redirected nach `/dashboard` → also muss die Route `/dashboard` existieren
+
 ### 4. Navigation erweitern
 
 ```javascript
